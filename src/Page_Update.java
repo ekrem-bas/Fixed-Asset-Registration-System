@@ -290,6 +290,7 @@ public class Page_Update extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_updateActionPerformed
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
+        new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_cancelActionPerformed
 

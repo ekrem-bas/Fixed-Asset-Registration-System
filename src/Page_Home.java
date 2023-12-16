@@ -277,17 +277,21 @@ public class Page_Home extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
-        FixedAssets asset = new FixedAssets(
-                model.getValueAt(tbl_assets.getSelectedRow(), 1).toString(),
-                model.getValueAt(tbl_assets.getSelectedRow(), 2).toString(),
-                model.getValueAt(tbl_assets.getSelectedRow(), 3).toString(),
-                model.getValueAt(tbl_assets.getSelectedRow(), 4).toString(),
-                model.getValueAt(tbl_assets.getSelectedRow(), 5).toString(),
-                model.getValueAt(tbl_assets.getSelectedRow(), 6).toString(),
-                model.getValueAt(tbl_assets.getSelectedRow(), 7).toString()
-        );
-        new Page_Update(Integer.parseInt(tbl_assets.getValueAt(tbl_assets.getSelectedRow(), 0).toString()), asset).setVisible(true);
-        this.dispose();
+        if (tbl_assets.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            FixedAssets asset = new FixedAssets(
+                    model.getValueAt(tbl_assets.getSelectedRow(), 1).toString(),
+                    model.getValueAt(tbl_assets.getSelectedRow(), 2).toString(),
+                    model.getValueAt(tbl_assets.getSelectedRow(), 3).toString(),
+                    model.getValueAt(tbl_assets.getSelectedRow(), 4).toString(),
+                    model.getValueAt(tbl_assets.getSelectedRow(), 5).toString(),
+                    model.getValueAt(tbl_assets.getSelectedRow(), 6).toString(),
+                    model.getValueAt(tbl_assets.getSelectedRow(), 7).toString()
+            );
+            new Page_Update(Integer.parseInt(tbl_assets.getValueAt(tbl_assets.getSelectedRow(), 0).toString()), asset).setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_btn_updateActionPerformed
 
     private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
@@ -310,7 +314,7 @@ public class Page_Home extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(
                     rootPane,
-                    model.getValueAt(tbl_assets.getSelectedRow(), 1) + " cannot deleted.", 
+                    model.getValueAt(tbl_assets.getSelectedRow(), 1) + " cannot deleted.",
                     "WARNING",
                     JOptionPane.WARNING_MESSAGE
             );
