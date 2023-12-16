@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Page_Update extends javax.swing.JFrame {
-    
+
     ArrayList<JTextField> textFields = new ArrayList<>();
     int selected_id;
 
@@ -34,7 +34,7 @@ public class Page_Update extends javax.swing.JFrame {
     public Page_Update() {
         initComponents();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -238,10 +238,10 @@ public class Page_Update extends javax.swing.JFrame {
         boolean matches = false;
         Pattern pattern = Pattern.compile("^[0-9]+");
         Matcher matcher = pattern.matcher(txt_price.getText());
-        if(matcher.matches()) {
+        if (matcher.matches()) {
             matches = true;
         } else {
-            while(!matcher.matches()) {
+            while (!matcher.matches()) {
                 String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter integers!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 if (input == null) {
                     matches = false;
@@ -252,7 +252,7 @@ public class Page_Update extends javax.swing.JFrame {
                 }
             }
         }
-        if(matches) {
+        if (matches) {
             txt_price.setText(matcher.group());
             return txt_price.getText();
         } else {
@@ -278,9 +278,14 @@ public class Page_Update extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
             FixedAssets asset = new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString());
-            new DatabaseManager().updateAsset(selected_id, asset);
-            this.dispose();
-            new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
+            if (new DatabaseManager().updateAsset(selected_id, asset)) {
+                JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is updated!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is not updated!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            }
+
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 
@@ -289,9 +294,9 @@ public class Page_Update extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
+
     }//GEN-LAST:event_formWindowOpened
-    
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
