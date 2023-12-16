@@ -17,7 +17,6 @@ public class Page_Update extends javax.swing.JFrame {
         txt_description.setText(asset.getProductDescription());
         cbox_category.setSelectedItem(asset.getProductCategory());
         txt_serialNumber.setText(asset.getProductSerialNumber());
-//        spinner_date.setValue(asset.getProductPurchaseDate());
         txt_price.setText(asset.getProductPrice());
         txt_location.setText(asset.getProductLocation());
         if (asset.getProductStatus().equals("Active")) {
@@ -121,6 +120,7 @@ public class Page_Update extends javax.swing.JFrame {
 
         txt_id.setEditable(false);
         txt_id.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        txt_id.setFocusable(false);
 
         chcbox_status.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         chcbox_status.setText("ACTIVE");
