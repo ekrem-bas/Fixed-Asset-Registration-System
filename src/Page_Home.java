@@ -268,9 +268,7 @@ public class Page_Home extends javax.swing.JFrame {
             tbl_assets.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_cbox_filterActionPerformed
-    public JTable get_tbl() {
-        return tbl_assets;
-    }
+    
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
         new Page_Add().setVisible(true);
         this.dispose();
@@ -281,15 +279,15 @@ public class Page_Home extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             FixedAssets asset = new FixedAssets(
-                    model.getValueAt(tbl_assets.getSelectedRow(), 1).toString(),
-                    model.getValueAt(tbl_assets.getSelectedRow(), 2).toString(),
-                    model.getValueAt(tbl_assets.getSelectedRow(), 3).toString(),
-                    model.getValueAt(tbl_assets.getSelectedRow(), 4).toString(),
-                    model.getValueAt(tbl_assets.getSelectedRow(), 5).toString(),
-                    model.getValueAt(tbl_assets.getSelectedRow(), 6).toString(),
-                    model.getValueAt(tbl_assets.getSelectedRow(), 7).toString()
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1).toString(),
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 2).toString(),
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 3).toString(),
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 4).toString(),
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 5).toString(),
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 6).toString(),
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 7).toString()
             );
-            new Page_Update(Integer.parseInt(tbl_assets.getValueAt(tbl_assets.getSelectedRow(), 0).toString()), asset).setVisible(true);
+            new Page_Update(Integer.parseInt(tbl_assets.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()), asset).setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_btn_updateActionPerformed
@@ -302,19 +300,19 @@ public class Page_Home extends javax.swing.JFrame {
     }//GEN-LAST:event_mbtn_copyActionPerformed
 
     private void mbtn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_deleteActionPerformed
-        System.out.println(model.getValueAt(tbl_assets.getSelectedRow(), 0).toString());
-        if (new DatabaseManager().deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.getSelectedRow(), 0).toString()))) {
+        System.out.println(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString());
+        if (new DatabaseManager().deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()))) {
             JOptionPane.showMessageDialog(
                     rootPane,
-                    model.getValueAt(tbl_assets.getSelectedRow(), 1) + " is deleted.",
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " is deleted.",
                     "INFORMATION",
                     JOptionPane.INFORMATION_MESSAGE
             );
-            model.removeRow(tbl_assets.getSelectedRow());
+            model.removeRow(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()));
         } else {
             JOptionPane.showMessageDialog(
                     rootPane,
-                    model.getValueAt(tbl_assets.getSelectedRow(), 1) + " cannot deleted.",
+                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " cannot deleted.",
                     "WARNING",
                     JOptionPane.WARNING_MESSAGE
             );
