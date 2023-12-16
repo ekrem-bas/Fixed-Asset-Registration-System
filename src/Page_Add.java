@@ -214,14 +214,15 @@ public class Page_Add extends javax.swing.JFrame {
                 String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter integers!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 if (input == null) {
                     matches = false;
+                    break;
                 } else {
                     matcher = pattern.matcher(input);
-                    txt_price.setText(matcher.group());
                     matches = true;
                 }
             }
         }
         if(matches) {
+            txt_price.setText(matcher.group());
             return txt_price.getText();
         } else {
             return "";

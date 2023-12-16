@@ -32,7 +32,7 @@ public class Page_Update extends javax.swing.JFrame {
     }
 
     public Page_Update() {
-        
+        initComponents();
     }
     
     @SuppressWarnings("unchecked")
@@ -238,21 +238,22 @@ public class Page_Update extends javax.swing.JFrame {
         boolean matches = false;
         Pattern pattern = Pattern.compile("^[0-9]+");
         Matcher matcher = pattern.matcher(txt_price.getText());
-        if (matcher.matches()) {
+        if(matcher.matches()) {
             matches = true;
         } else {
-            while (!matcher.matches()) {
+            while(!matcher.matches()) {
                 String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter integers!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 if (input == null) {
                     matches = false;
+                    break;
                 } else {
                     matcher = pattern.matcher(input);
-                    txt_price.setText(matcher.group());
                     matches = true;
                 }
             }
         }
-        if (matches) {
+        if(matches) {
+            txt_price.setText(matcher.group());
             return txt_price.getText();
         } else {
             return "";
