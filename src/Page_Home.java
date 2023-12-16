@@ -1,4 +1,7 @@
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
@@ -50,12 +53,22 @@ public class Page_Home extends javax.swing.JFrame {
         PopupMenu.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
         mbtn_update.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        mbtn_update.setText("Copy");
+        mbtn_update.setText("Update");
+        mbtn_update.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_updateActionPerformed(evt);
+            }
+        });
         PopupMenu.add(mbtn_update);
         PopupMenu.add(jSeparator1);
 
         mbtn_copy.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        mbtn_copy.setText("Update");
+        mbtn_copy.setText("Copy");
+        mbtn_copy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbtn_copyActionPerformed(evt);
+            }
+        });
         PopupMenu.add(mbtn_copy);
         PopupMenu.add(jSeparator4);
 
@@ -271,6 +284,13 @@ public class Page_Home extends javax.swing.JFrame {
         new Page_Update(Integer.parseInt(tbl_assets.getValueAt(tbl_assets.getSelectedRow(), 0).toString()), asset).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_updateActionPerformed
+
+    private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
+        String copy = model.getDataVector().get(tbl_assets.getSelectedRow()).toString();
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        StringSelection stringSelection = new StringSelection(copy);
+        clipboard.setContents(stringSelection, null);
+    }//GEN-LAST:event_mbtn_copyActionPerformed
 
     public static void main(String args[]) {
 
