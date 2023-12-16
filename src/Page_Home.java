@@ -75,6 +75,11 @@ public class Page_Home extends javax.swing.JFrame {
         mbtn_delete.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         mbtn_delete.setText("Delete");
         mbtn_delete.setToolTipText("");
+        mbtn_delete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbtn_deleteActionPerformed(evt);
+            }
+        });
         PopupMenu.add(mbtn_delete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -263,7 +268,7 @@ public class Page_Home extends javax.swing.JFrame {
             tbl_assets.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_cbox_filterActionPerformed
-    public JTable get_tbl(){
+    public JTable get_tbl() {
         return tbl_assets;
     }
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
@@ -291,6 +296,26 @@ public class Page_Home extends javax.swing.JFrame {
         StringSelection stringSelection = new StringSelection(copy);
         clipboard.setContents(stringSelection, null);
     }//GEN-LAST:event_mbtn_copyActionPerformed
+
+    private void mbtn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_deleteActionPerformed
+        System.out.println(model.getValueAt(tbl_assets.getSelectedRow(), 0).toString());
+        if (new DatabaseManager().deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.getSelectedRow(), 0).toString()))) {
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    model.getValueAt(tbl_assets.getSelectedRow(), 1) + " is deleted.",
+                    "INFORMATION",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            model.removeRow(tbl_assets.getSelectedRow());
+        } else {
+            JOptionPane.showMessageDialog(
+                    rootPane,
+                    model.getValueAt(tbl_assets.getSelectedRow(), 1) + " cannot deleted.", 
+                    "WARNING",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_mbtn_deleteActionPerformed
 
     public static void main(String args[]) {
 

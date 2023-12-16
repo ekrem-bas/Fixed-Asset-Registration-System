@@ -172,6 +172,7 @@ public class Page_Add extends javax.swing.JFrame {
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         this.dispose();
+        new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
     }//GEN-LAST:event_btn_cancelActionPerformed
     
     // check empty fields

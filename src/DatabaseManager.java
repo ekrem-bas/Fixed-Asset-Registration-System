@@ -129,8 +129,9 @@ public class DatabaseManager {
     // TODO: asset teable (update, (same frame: delete, show))
     // ADD ASSETS (done)
     // SHOW ASSETS (done)
-    // UPDATE ASSETS
+    // UPDATE ASSETS (done)
     // FILTER ASSETS (done)
+    // DELETE ASSETS
     
     
     // SHOW ASSETS    
@@ -191,7 +192,6 @@ public class DatabaseManager {
         boolean updated = false;
         try{
             String sql = "UPDATE Asset SET description = '"+asset.getProductDescription()+"', category = '"+asset.getProductCategory()+"', serialNumber = '"+asset.getProductSerialNumber()+"', purchaseDate = '"+asset.getProductPurchaseDate()+"', price = '"+asset.getProductPrice()+"', location = '"+asset.getProductLocation()+"', status = '"+asset.getProductStatus()+"' WHERE id = '"+id+"'";
-
             connection = getConnection();
             statement = connection.createStatement();
             if (statement.executeUpdate(sql) > 0) {
@@ -203,6 +203,24 @@ public class DatabaseManager {
             System.out.println(e.toString());
         }
         return updated;
+    }
+    
+    // DELETE ASSET
+    public boolean deleteAsset(int id) {
+        boolean deleted = false;
+        try {
+            String sql = "DELETE FROM Asset WHERE (id = '" + id + "')";
+            connection = getConnection();
+            statement = connection.createStatement();
+            if(statement.executeUpdate(sql) > 0) {
+                deleted = true;
+            } 
+            connection.close();
+            statement.close();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return deleted;
     }
 
 }
