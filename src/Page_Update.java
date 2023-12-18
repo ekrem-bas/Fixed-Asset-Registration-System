@@ -244,6 +244,7 @@ public class Page_Update extends javax.swing.JFrame {
         txt_serialNumber.setText(asset.getProductSerialNumber());
         txt_price.setText(asset.getProductPrice());
         txt_location.setText(asset.getProductLocation());
+        spinner_date.setValue(asset.getProductPurchaseDate());
         if (asset.getProductStatus().equals("Active")) {
             chcbox_status.setSelected(true);
         } else {
@@ -332,7 +333,6 @@ public class Page_Update extends javax.swing.JFrame {
         }
     }
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_cancelActionPerformed
 
@@ -344,7 +344,7 @@ public class Page_Update extends javax.swing.JFrame {
             if (new DatabaseManager().updateAsset(selected_id, asset)) {
                 JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is updated!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-                new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
+                new DatabaseManager().showAssets(Page_Home.model);
             } else {
                 JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is not updated!", "WARNING", JOptionPane.WARNING_MESSAGE);
             }

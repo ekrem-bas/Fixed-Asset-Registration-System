@@ -5,11 +5,12 @@ import javax.swing.table.DefaultTableModel;
 public class SubPage_PersonList extends javax.swing.JFrame {
 
     DefaultTableModel dtm;
+
     public SubPage_PersonList() {
         initComponents();
-        dtm = (DefaultTableModel)tbl_persons.getModel();
+        dtm = (DefaultTableModel) tbl_persons.getModel();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -124,11 +125,13 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
-        if(new DatabaseManager().delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))){
-            JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " deleted.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-            dtm.removeRow(tbl_persons.getSelectedRow());
-        } else {
-            JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " cannot deleted.");
+        if (Page_Home.checkPermission()) {
+            if (new DatabaseManager().delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))) {
+                JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " deleted.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                new DatabaseManager().showPersons(dtm);
+            } else {
+                JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " cannot deleted.");
+            }
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 

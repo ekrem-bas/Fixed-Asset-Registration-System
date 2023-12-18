@@ -9,7 +9,7 @@ import javax.swing.table.TableRowSorter;
 
 public class Page_Home extends javax.swing.JFrame {
 
-    DefaultTableModel model;
+    static DefaultTableModel model;
 
     public Page_Home(Person person) {
         initComponents();
@@ -257,6 +257,15 @@ public class Page_Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    // check permission 
+    public static boolean checkPermission() {
+        if (!DatabaseManager.loggedPerson.getPosition().equals("General Manager")) {
+            JOptionPane.showMessageDialog(null, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            return false;
+        } else {
+            return true;
+        }
+    }
     private void cbox_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_filterActionPerformed
         TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>();
         rowSorter.setModel(model);
@@ -267,54 +276,66 @@ public class Page_Home extends javax.swing.JFrame {
             tbl_assets.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_cbox_filterActionPerformed
-    
+
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
-        new Page_Add().setVisible(true);
-        this.dispose();
+        if (checkPermission()) {
+            new Page_Add().setVisible(true);
+        }
     }//GEN-LAST:event_btn_addActionPerformed
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
-        if (tbl_assets.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
-            FixedAssets asset = new FixedAssets(
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1).toString(),
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 2).toString(),
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 3).toString(),
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 4).toString(),
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 5).toString(),
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 6).toString(),
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 7).toString()
-            );
-            new Page_Update(Integer.parseInt(tbl_assets.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()), asset).setVisible(true);
-            this.dispose();
+        if (checkPermission()) {
+            if (tbl_assets.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                
+                FixedAssets asset = new FixedAssets(
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1).toString(),
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 2).toString(),
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 3).toString(),
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 4).toString(),
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 5).toString(),
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 6).toString(),
+                        model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 7).toString()
+                );
+                new Page_Update(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()), asset).setVisible(true);
+            }
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 
     private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
-        String copy = model.getDataVector().get(tbl_assets.getSelectedRow()).toString();
-        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        StringSelection stringSelection = new StringSelection(copy);
-        clipboard.setContents(stringSelection, null);
+        if (tbl_assets.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            String copy = model.getDataVector().get(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow())).toString();
+            Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+            StringSelection stringSelection = new StringSelection(copy);
+            clipboard.setContents(stringSelection, null);
+        }
     }//GEN-LAST:event_mbtn_copyActionPerformed
 
     private void mbtn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_deleteActionPerformed
-        System.out.println(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString());
-        if (new DatabaseManager().deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()))) {
-            JOptionPane.showMessageDialog(
-                    rootPane,
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " is deleted.",
-                    "INFORMATION",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
-            model.removeRow(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()));
-        } else {
-            JOptionPane.showMessageDialog(
-                    rootPane,
-                    model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " cannot deleted.",
-                    "WARNING",
-                    JOptionPane.WARNING_MESSAGE
-            );
+        if (checkPermission()) {
+            if (tbl_assets.getSelectedRow() == -1) {
+                JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (new DatabaseManager().deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()))) {
+                    JOptionPane.showMessageDialog(
+                            rootPane,
+                            model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " is deleted.",
+                            "INFORMATION",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                    new DatabaseManager().showAssets(model);
+                } else {
+                    JOptionPane.showMessageDialog(
+                            rootPane,
+                            model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " cannot deleted.",
+                            "WARNING",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
         }
     }//GEN-LAST:event_mbtn_deleteActionPerformed
 

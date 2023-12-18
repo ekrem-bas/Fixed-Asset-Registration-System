@@ -88,6 +88,7 @@ public class DatabaseManager {
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            dtm.setRowCount(0);
             while (resultSet.next()) {
                 dtm.addRow(new Object[]{
                     resultSet.getInt("id"),
@@ -141,6 +142,7 @@ public class DatabaseManager {
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            dtm.setRowCount(0);
             while (resultSet.next()) {
                 dtm.addRow(new Object[]{
                     resultSet.getInt("id"),

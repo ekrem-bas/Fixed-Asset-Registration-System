@@ -219,7 +219,6 @@ public class Page_Add extends javax.swing.JFrame {
     }
     // cancel button
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
-        new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_cancelActionPerformed
 
@@ -305,7 +304,7 @@ public class Page_Add extends javax.swing.JFrame {
         } else {
             new DatabaseManager().addAssets(new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
             JOptionPane.showMessageDialog(rootPane, getDescriptionString() + " is added to assets.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-            new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
+            new DatabaseManager().showAssets(Page_Home.model);
             this.dispose();
         }
     }//GEN-LAST:event_btn_applyActionPerformed
