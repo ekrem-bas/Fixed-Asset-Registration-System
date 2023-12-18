@@ -13,7 +13,7 @@ public class Page_Add extends javax.swing.JFrame {
         addFieldstoArrayList();
     }
 
-    ArrayList<JTextField> textFields = new ArrayList<>();
+     ArrayList<JTextField> textFields = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -225,11 +225,17 @@ public class Page_Add extends javax.swing.JFrame {
 
     // check empty fields
     private boolean isEmptyField() {
-        boolean textFields = false;
-        for (JTextField test : this.textFields) {
-            textFields = test.getText().trim().isEmpty();
+        int empty_count = 0;
+        for (JTextField text : this.textFields) {
+            if(text.getText().trim().isEmpty()) {
+                empty_count++;
+            }
         }
-        return textFields;
+        if (empty_count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // get description

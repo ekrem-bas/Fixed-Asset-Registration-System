@@ -249,19 +249,25 @@ public class Page_Update extends javax.swing.JFrame {
         } else {
             chcbox_status.setSelected(false);
         }
-        textFields.add(txt_description);
-        textFields.add(txt_location);
-        textFields.add(txt_serialNumber);
-        textFields.add(txt_price);
     }
     
     // check empty fields
     private boolean isEmptyField() {
-        boolean textFields = false;
+        textFields.add(txt_description);
+        textFields.add(txt_location);
+        textFields.add(txt_serialNumber);
+        textFields.add(txt_price);
+        int empty_count = 0;
         for (JTextField test : this.textFields) {
-            textFields = test.getText().trim().isEmpty();
+            if(test.getText().trim().isEmpty()) {
+                empty_count++;
+            }
         }
-        return textFields;
+        if (empty_count > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     // get description

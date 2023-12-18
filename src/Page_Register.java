@@ -223,11 +223,17 @@ public class Page_Register extends javax.swing.JFrame {
     }
     // Check empty fields
     private boolean isEmptyField() {
+        int empty_count = 0;
         boolean checkTextFields = false;
         boolean genderButtons = false;
         boolean termsButton = false;
         for (JTextField text : this.textFields) {
-            checkTextFields = text.getText().trim().isEmpty();
+            if(text.getText().trim().isEmpty()) {
+                empty_count++;
+            }
+        }
+        if(empty_count > 0) {
+            checkTextFields = true;
         }
         if (!rbtn_female.isSelected() && !rbtn_male.isSelected()) {
             genderButtons = true;

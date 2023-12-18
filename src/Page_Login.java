@@ -1,10 +1,11 @@
 
-
-
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
-
+import javax.swing.JTextField;
 
 public class Page_Login extends javax.swing.JFrame {
+
+    ArrayList<JTextField> textFields = new ArrayList<>();
 
     public Page_Login() {
         initComponents();
@@ -114,6 +115,22 @@ public class Page_Login extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // check if the fields are empty or not
+    private boolean isEmptyArea() {
+        textFields.add(txt_mail);
+        textFields.add(txt_password);
+        int empty_count = 0;
+        for (JTextField text : textFields) {
+            if (text.getText().trim().isEmpty()) {
+                empty_count++;
+            }
+        }
+        if (empty_count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         new Page_Register().setVisible(true);
         this.dispose();
@@ -127,15 +144,16 @@ public class Page_Login extends javax.swing.JFrame {
         return passwordString;
     }
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        if (new DatabaseManager().login(txt_mail.getText(), getPasswordString())) {
-            new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
-            this.dispose();
+        if (isEmptyArea()) {
+            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(rootPane, "User cannot found!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            if (new DatabaseManager().login(txt_mail.getText(), getPasswordString())) {
+                new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "User cannot found!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            }
         }
-        
-        
-        
     }//GEN-LAST:event_btn_loginActionPerformed
 
     public static void main(String args[]) {
