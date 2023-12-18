@@ -9,11 +9,7 @@ public class Page_Register extends javax.swing.JFrame {
 
     public Page_Register() {
         initComponents();
-        textFields.add(txt_name);
-        textFields.add(txt_surname);
-        textFields.add(txt_phone);
-        textFields.add(txt_mail);
-        textFields.add(txt_password);
+        addFieldstoArrayList();
     }
 
     @SuppressWarnings("unchecked")
@@ -216,7 +212,15 @@ public class Page_Register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     ArrayList<JTextField> textFields = new ArrayList<>();
-
+    
+    // add fields to the arrayList to check if they are empty or not
+    private void addFieldstoArrayList(){
+        textFields.add(txt_name);
+        textFields.add(txt_surname);
+        textFields.add(txt_phone);
+        textFields.add(txt_mail);
+        textFields.add(txt_password);
+    }
     // Check empty fields
     private boolean isEmptyField() {
         boolean checkTextFields = false;
@@ -388,9 +392,9 @@ public class Page_Register extends javax.swing.JFrame {
                     getPositionString()
             );
             if (new DatabaseManager().register(person, person.getMail())) {
-                JOptionPane.showMessageDialog(rootPane, "Kullanıcı bulunmakta.", "UYARI", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, getMailString() + " could not be regiseterd. This mail exist!", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Kullanıcı başarıyla eklendi.", "BİLGİ", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, getNameString() + " successfully registered.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             }
             this.dispose();
             new Page_Login().setVisible(true);

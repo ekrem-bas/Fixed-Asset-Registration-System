@@ -13,22 +13,7 @@ public class Page_Update extends javax.swing.JFrame {
 
     public Page_Update(int id, FixedAssets asset) {
         initComponents();
-        selected_id = id;
-        txt_id.setText(Integer.toString(selected_id));
-        txt_description.setText(asset.getProductDescription());
-        cbox_category.setSelectedItem(asset.getProductCategory());
-        txt_serialNumber.setText(asset.getProductSerialNumber());
-        txt_price.setText(asset.getProductPrice());
-        txt_location.setText(asset.getProductLocation());
-        if (asset.getProductStatus().equals("Active")) {
-            chcbox_status.setSelected(true);
-        } else {
-            chcbox_status.setSelected(false);
-        }
-        textFields.add(txt_description);
-        textFields.add(txt_location);
-        textFields.add(txt_serialNumber);
-        textFields.add(txt_price);
+        setComponents(id, asset);
     }
 
     public Page_Update() {
@@ -249,7 +234,27 @@ public class Page_Update extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    // prepare components to be ready
+    private void setComponents(int id, FixedAssets asset){
+        selected_id = id;
+        txt_id.setText(Integer.toString(selected_id));
+        txt_description.setText(asset.getProductDescription());
+        cbox_category.setSelectedItem(asset.getProductCategory());
+        txt_serialNumber.setText(asset.getProductSerialNumber());
+        txt_price.setText(asset.getProductPrice());
+        txt_location.setText(asset.getProductLocation());
+        if (asset.getProductStatus().equals("Active")) {
+            chcbox_status.setSelected(true);
+        } else {
+            chcbox_status.setSelected(false);
+        }
+        textFields.add(txt_description);
+        textFields.add(txt_location);
+        textFields.add(txt_serialNumber);
+        textFields.add(txt_price);
+    }
+    
     // check empty fields
     private boolean isEmptyField() {
         boolean textFields = false;

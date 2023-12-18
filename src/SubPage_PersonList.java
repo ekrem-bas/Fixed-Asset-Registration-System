@@ -117,7 +117,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if (new DatabaseManager().showPersons(dtm)) {
-            
+            JOptionPane.showMessageDialog(rootPane, tbl_persons.getRowCount() + " person found!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(rootPane, "There is no one in database!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         }

@@ -10,10 +10,7 @@ public class Page_Add extends javax.swing.JFrame {
 
     public Page_Add() {
         initComponents();
-        textFields.add(txt_description);
-        textFields.add(txt_location);
-        textFields.add(txt_serialNumber);
-        textFields.add(txt_price);
+        addFieldstoArrayList();
     }
 
     ArrayList<JTextField> textFields = new ArrayList<>();
@@ -213,7 +210,14 @@ public class Page_Add extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    // add fields to arrayList to check them
+    private void addFieldstoArrayList(){
+        textFields.add(txt_description);
+        textFields.add(txt_location);
+        textFields.add(txt_serialNumber);
+        textFields.add(txt_price);
+    }
+    // cancel button
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
         this.dispose();
@@ -292,10 +296,8 @@ public class Page_Add extends javax.swing.JFrame {
         if (isEmptyField() || getPriceString().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
-//            DefaultTableModel model = (DefaultTableModel) new Page_Home().get_tbl().getModel();
             new DatabaseManager().addAssets(new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
             JOptionPane.showMessageDialog(rootPane, getDescriptionString() + " is added to assets.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-//            model.fireTableDataChanged();
             new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
             this.dispose();
         }

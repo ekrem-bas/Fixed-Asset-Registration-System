@@ -42,7 +42,6 @@ public class DatabaseManager {
                         + "'" + person.getGender() + "',"
                         + "'" + person.getPosition() + "')"
                 );
-                System.out.println(person.getName() + " Eklendi.");
                 connection.close();
                 statement.close();
             }
