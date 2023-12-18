@@ -19,7 +19,14 @@ public class DatabaseManager {
         return DriverManager.getConnection(url, username, password);
     }
     
-    
+    // check permission 
+    public static boolean checkPermission() {
+        if (!loggedPerson.getPosition().equals("General Manager")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     // REGISTER
     public boolean register(Person person, String mail) {
         boolean exist = false;

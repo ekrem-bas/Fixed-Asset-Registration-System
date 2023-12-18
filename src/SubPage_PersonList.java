@@ -118,19 +118,27 @@ public class SubPage_PersonList extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         if (new DatabaseManager().showPersons(dtm)) {
-            JOptionPane.showMessageDialog(rootPane, tbl_persons.getRowCount() + " person found!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+            if (DatabaseManager.checkPermission()) {
+                JOptionPane.showMessageDialog(rootPane, tbl_persons.getRowCount() + " person found!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+            } 
         } else {
             JOptionPane.showMessageDialog(rootPane, "There is no one in database!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
-        if (Page_Home.checkPermission()) {
-            if (new DatabaseManager().delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))) {
-                JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " deleted.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                new DatabaseManager().showPersons(dtm);
+        if (tbl_persons.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (DatabaseManager.checkPermission()) {
+                if (new DatabaseManager().delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))) {
+                    JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " deleted.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                    new DatabaseManager().showPersons(dtm);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " cannot deleted.");
+                }
             } else {
-                JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " cannot deleted.");
+                JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_btn_deleteActionPerformed

@@ -244,7 +244,6 @@ public class Page_Update extends javax.swing.JFrame {
         txt_serialNumber.setText(asset.getProductSerialNumber());
         txt_price.setText(asset.getProductPrice());
         txt_location.setText(asset.getProductLocation());
-        spinner_date.setValue(asset.getProductPurchaseDate());
         if (asset.getProductStatus().equals("Active")) {
             chcbox_status.setSelected(true);
         } else {
