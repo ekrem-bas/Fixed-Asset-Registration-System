@@ -47,7 +47,7 @@ public class DatabaseManager {
             }
 
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return exist;
     }
@@ -75,7 +75,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return found;
     }
@@ -102,7 +102,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return showed;
     }
@@ -120,7 +120,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return deleted;
     }
@@ -130,7 +130,7 @@ public class DatabaseManager {
     // SHOW ASSETS (done)
     // UPDATE ASSETS (done)
     // FILTER ASSETS (done)
-    // DELETE ASSETS
+    // DELETE ASSETS (done)
     
     
     // SHOW ASSETS    
@@ -156,7 +156,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return showed;
     }
@@ -181,7 +181,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return added;
     }
@@ -199,7 +199,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return updated;
     }
@@ -217,7 +217,7 @@ public class DatabaseManager {
             connection.close();
             statement.close();
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
         }
         return deleted;
     }
