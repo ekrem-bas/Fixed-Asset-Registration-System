@@ -302,6 +302,7 @@ public class Page_Update extends javax.swing.JFrame {
                 String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter integers!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 if (input == null) {
                     matches = false;
+                    txt_price.setText("");
                     break;
                 } else {
                     matcher = pattern.matcher(input);
