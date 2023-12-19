@@ -302,7 +302,7 @@ public class Page_Add extends javax.swing.JFrame {
         if (isEmptyField() || getPriceString().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            new DatabaseManager().addAssets(new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
+            DatabaseManager.addAssets(new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
             JOptionPane.showMessageDialog(rootPane, getDescriptionString() + " is added to assets.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             new DatabaseManager().showAssets(Page_Home.model);
             this.dispose();

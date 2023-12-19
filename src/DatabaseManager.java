@@ -5,17 +5,17 @@ import javax.swing.table.DefaultTableModel;
 
 public class DatabaseManager {
 
-    private final String url = "jdbc:mysql://localhost:3306/my_database";
-    private final String username = "root";
-    private final String password = "root1234";
-    private Connection connection;
-    private Statement statement;
-    private ResultSet resultSet;
+    private final static String url = "jdbc:mysql://localhost:3306/my_database";
+    private final static String username = "root";
+    private final static String password = "root1234";
+    private static Connection connection;
+    private static Statement statement;
+    private static ResultSet resultSet;
 
     public static Person loggedPerson;
 
     // CONNECTION
-    public Connection getConnection() throws SQLException {
+    public static Connection getConnection() throws SQLException {
         return DriverManager.getConnection(url, username, password);
     }
     
@@ -171,7 +171,7 @@ public class DatabaseManager {
     }
 
     // ADD ASSETS
-    public boolean addAssets(FixedAssets asset) {
+    public static boolean addAssets(FixedAssets asset) {
         boolean added = false;
         try {
             String sql = "INSERT INTO Asset (description, category, serialNumber, purchaseDate, price, location, status) "
