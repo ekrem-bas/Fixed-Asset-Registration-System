@@ -9,11 +9,11 @@ public class Person {
     private String password;
     private String gender;
     private String position;
-    
-    public Person(){
-        
+
+    public Person() {
+
     }
-    
+
     public Person(String name, String surname, String phone, String mail, String password, String gender, String position) {
         this.name = name;
         this.surname = surname;
@@ -24,10 +24,10 @@ public class Person {
         this.position = position;
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
-    
+
     public String getName() {
         return name;
     }

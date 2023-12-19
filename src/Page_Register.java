@@ -212,15 +212,16 @@ public class Page_Register extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     ArrayList<JTextField> textFields = new ArrayList<>();
-    
+
     // add fields to the arrayList to check if they are empty or not
-    private void addFieldstoArrayList(){
+    private void addFieldstoArrayList() {
         textFields.add(txt_name);
         textFields.add(txt_surname);
         textFields.add(txt_phone);
         textFields.add(txt_mail);
         textFields.add(txt_password);
     }
+
     // Check empty fields
     private boolean isEmptyField() {
         int empty_count = 0;
@@ -228,11 +229,11 @@ public class Page_Register extends javax.swing.JFrame {
         boolean genderButtons = false;
         boolean termsButton = false;
         for (JTextField text : this.textFields) {
-            if(text.getText().trim().isEmpty()) {
+            if (text.getText().trim().isEmpty()) {
                 empty_count++;
             }
         }
-        if(empty_count > 0) {
+        if (empty_count > 0) {
             checkTextFields = true;
         }
         if (!rbtn_female.isSelected() && !rbtn_male.isSelected()) {
@@ -267,12 +268,10 @@ public class Page_Register extends javax.swing.JFrame {
                 }
             }
             if (m.matches()) {
-                System.out.println(fieldName + ": " + m.group());
                 field.setText(m.group());
                 return true;
             }
         } else {
-            System.out.println(fieldName + ": " + m.group());
             return true;
         }
         return false;
@@ -350,9 +349,9 @@ public class Page_Register extends javax.swing.JFrame {
     private String getPositionString() {
         return cbox_position.getSelectedItem().toString();
     }
-    
-    private boolean isEmptyCheck(){
-        if(getNameString().isEmpty() || getSurnameString().isEmpty() || getPhoneString().isEmpty() || getMailString().isEmpty() || getPasswordString().isEmpty()){
+
+    private boolean isEmptyCheck() {
+        if (getNameString().isEmpty() || getSurnameString().isEmpty() || getPhoneString().isEmpty() || getMailString().isEmpty() || getPasswordString().isEmpty()) {
             return false;
         } else {
             return true;
@@ -373,7 +372,7 @@ public class Page_Register extends javax.swing.JFrame {
         if (btn_agreement.isSelected() && !SubPage_TermsOfService.clickedCloseButton) {
             new SubPage_TermsOfService().setVisible(true);
             if (SubPage_TermsOfService.clickedCloseButton) {
-                btn_agreement.setSelected(btn_agreement.isSelected());
+                btn_agreement.setSelected(true);
                 SubPage_TermsOfService.clickedCloseButton = false;
             } else {
                 btn_agreement.setSelected(false);
@@ -384,10 +383,9 @@ public class Page_Register extends javax.swing.JFrame {
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         if (isEmptyField()) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "Empty Areas", JOptionPane.WARNING_MESSAGE);
-        } else if(!isEmptyCheck()){
+        } else if (!isEmptyCheck()) {
             JOptionPane.showMessageDialog(rootPane, "Invalid Values Please Try Again!");
-        } 
-        else {
+        } else {
             Person person = new Person(
                     getNameString(),
                     getSurnameString(),
@@ -397,7 +395,7 @@ public class Page_Register extends javax.swing.JFrame {
                     getGenderChar(),
                     getPositionString()
             );
-            if (new DatabaseManager().register(person, person.getMail())) {
+            if (DatabaseManager.register(person, person.getMail())) {
                 JOptionPane.showMessageDialog(rootPane, getMailString() + " could not be regiseterd. This mail exist!", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(rootPane, getNameString() + " successfully registered.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);

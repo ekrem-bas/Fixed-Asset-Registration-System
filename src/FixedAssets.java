@@ -1,6 +1,6 @@
 
 public class FixedAssets {
-    
+
     private String productDescription;
     private String productCategory;
     private String productSerialNumber;
@@ -18,7 +18,6 @@ public class FixedAssets {
         this.productLocation = productLocation;
         this.productStatus = productStatus;
     }
-
 
     public String getProductDescription() {
         return productDescription;
@@ -47,5 +46,5 @@ public class FixedAssets {
     public String getProductStatus() {
         return productStatus;
     }
-    
+
 }

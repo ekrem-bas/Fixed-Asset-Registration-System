@@ -147,7 +147,7 @@ public class Page_Login extends javax.swing.JFrame {
         if (isEmptyArea()) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
-            if (new DatabaseManager().login(txt_mail.getText(), getPasswordString())) {
+            if (DatabaseManager.login(txt_mail.getText(), getPasswordString())) {
                 new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
                 this.dispose();
             } else {

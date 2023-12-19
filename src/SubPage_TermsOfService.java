@@ -1,13 +1,9 @@
 
-
-
 public class SubPage_TermsOfService extends javax.swing.JFrame {
-
 
     public SubPage_TermsOfService() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -274,9 +270,9 @@ public class SubPage_TermsOfService extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-   
+
     static boolean clickedCloseButton = false;
-    
+
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         tabbed_pane.setSelectedIndex(tabbed_pane.getSelectedIndex() + 1);
     }//GEN-LAST:event_nextButtonActionPerformed
@@ -286,9 +282,8 @@ public class SubPage_TermsOfService extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 
-    
     public static void main(String args[]) {
-        
+
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -312,7 +307,6 @@ public class SubPage_TermsOfService extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new SubPage_TermsOfService().setVisible(true);

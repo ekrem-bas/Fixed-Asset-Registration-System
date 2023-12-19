@@ -251,13 +251,13 @@ public class Page_Home extends javax.swing.JFrame {
     }//GEN-LAST:event_mbtn_showPersonsActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (new DatabaseManager().showAssets(model)) {
+        if (DatabaseManager.showAssets(model)) {
         } else {
             JOptionPane.showMessageDialog(rootPane, "There is no fixed asset in database");
         }
     }//GEN-LAST:event_formWindowOpened
 
-    
+
     private void cbox_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_filterActionPerformed
         TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>();
         rowSorter.setModel(model);
@@ -314,14 +314,14 @@ public class Page_Home extends javax.swing.JFrame {
             if (tbl_assets.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                if (new DatabaseManager().deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()))) {
+                if (DatabaseManager.deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()))) {
                     JOptionPane.showMessageDialog(
                             rootPane,
                             model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " is deleted.",
                             "INFORMATION",
                             JOptionPane.INFORMATION_MESSAGE
                     );
-                    new DatabaseManager().showAssets(model);
+                    DatabaseManager.showAssets(model);
                 } else {
                     JOptionPane.showMessageDialog(
                             rootPane,

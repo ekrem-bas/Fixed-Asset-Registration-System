@@ -13,7 +13,7 @@ public class Page_Add extends javax.swing.JFrame {
         addFieldstoArrayList();
     }
 
-     ArrayList<JTextField> textFields = new ArrayList<>();
+    ArrayList<JTextField> textFields = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -211,12 +211,14 @@ public class Page_Add extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
     // add fields to arrayList to check them
-    private void addFieldstoArrayList(){
+
+    private void addFieldstoArrayList() {
         textFields.add(txt_description);
         textFields.add(txt_location);
         textFields.add(txt_serialNumber);
         textFields.add(txt_price);
     }
+
     // cancel button
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         this.dispose();
@@ -226,15 +228,11 @@ public class Page_Add extends javax.swing.JFrame {
     private boolean isEmptyField() {
         int empty_count = 0;
         for (JTextField text : this.textFields) {
-            if(text.getText().trim().isEmpty()) {
+            if (text.getText().trim().isEmpty()) {
                 empty_count++;
             }
         }
-        if (empty_count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty_count > 0;
     }
 
     // get description
@@ -304,14 +302,14 @@ public class Page_Add extends javax.swing.JFrame {
         } else {
             DatabaseManager.addAssets(new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
             JOptionPane.showMessageDialog(rootPane, getDescriptionString() + " is added to assets.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-            new DatabaseManager().showAssets(Page_Home.model);
+            DatabaseManager.showAssets(Page_Home.model);
             this.dispose();
         }
     }//GEN-LAST:event_btn_applyActionPerformed
 
     private void cbox_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_categoryActionPerformed
         ImageIcon icon = null;
-        
+
         switch (cbox_category.getSelectedIndex()) {
             case 0:
                 icon = new ImageIcon("src/assets/building.png");

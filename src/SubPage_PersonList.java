@@ -117,10 +117,10 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (new DatabaseManager().showPersons(dtm)) {
+        if (DatabaseManager.showPersons(dtm)) {
             if (DatabaseManager.checkPermission()) {
                 JOptionPane.showMessageDialog(rootPane, tbl_persons.getRowCount() + " person found!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-            } 
+            }
         } else {
             JOptionPane.showMessageDialog(rootPane, "There is no one in database!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         }
@@ -131,9 +131,9 @@ public class SubPage_PersonList extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
         } else {
             if (DatabaseManager.checkPermission()) {
-                if (new DatabaseManager().delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))) {
+                if (DatabaseManager.delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))) {
                     JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " deleted.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                    new DatabaseManager().showPersons(dtm);
+                    DatabaseManager.showPersons(dtm);
                 } else {
                     JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " cannot deleted.");
                 }

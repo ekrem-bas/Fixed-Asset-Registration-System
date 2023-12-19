@@ -2,12 +2,11 @@
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
-
 public class DatabaseManager {
 
-    private final static String url = "jdbc:mysql://localhost:3306/my_database";
-    private final static String username = "root";
-    private final static String password = "root1234";
+    private final static String URL = "jdbc:mysql://localhost:3306/my_database";
+    private final static String USERNAME = "root";
+    private final static String PASSWORD = "root1234";
     private static Connection connection;
     private static Statement statement;
     private static ResultSet resultSet;
@@ -16,9 +15,9 @@ public class DatabaseManager {
 
     // CONNECTION
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
-    
+
     // check permission 
     public static boolean checkPermission() {
         if (!loggedPerson.getPosition().equals("General Manager")) {
@@ -27,8 +26,9 @@ public class DatabaseManager {
             return true;
         }
     }
+
     // REGISTER
-    public boolean register(Person person, String mail) {
+    public static boolean register(Person person, String mail) {
         boolean exist = false;
         try {
             String sql = "SELECT * FROM Person WHERE mail = '" + mail + "'";
@@ -60,7 +60,7 @@ public class DatabaseManager {
     }
 
     // LOGIN
-    public boolean login(String mail, String password) {
+    public static boolean login(String mail, String password) {
         boolean found = false;
         try {
             String sql = "SELECT * FROM Person WHERE mail = '" + mail + "' AND password = '" + password + "'";
@@ -88,7 +88,7 @@ public class DatabaseManager {
     }
 
     // SHOW PERSONS
-    public boolean showPersons(DefaultTableModel dtm) {
+    public static boolean showPersons(DefaultTableModel dtm) {
         boolean showed = false;
         try {
             String sql = "SELECT * FROM Person";
@@ -116,7 +116,7 @@ public class DatabaseManager {
     }
 
     // DELETE PERSON
-    public boolean delete(int id) {
+    public static boolean delete(int id) {
         boolean deleted = false;
         try {
             connection = getConnection();
@@ -139,10 +139,8 @@ public class DatabaseManager {
     // UPDATE ASSETS (done)
     // FILTER ASSETS (done)
     // DELETE ASSETS (done)
-    
-    
     // SHOW ASSETS    
-    public boolean showAssets(DefaultTableModel dtm) {
+    public static boolean showAssets(DefaultTableModel dtm) {
         boolean showed = false;
         try {
             String sql = "SELECT * FROM Asset";
@@ -184,7 +182,7 @@ public class DatabaseManager {
                     + "'" + asset.getProductStatus() + "')";
             connection = getConnection();
             statement = connection.createStatement();
-            if(statement.executeUpdate(sql) > 0) {
+            if (statement.executeUpdate(sql) > 0) {
                 added = true;
             }
             connection.close();
@@ -194,12 +192,12 @@ public class DatabaseManager {
         }
         return added;
     }
-    
+
     // UPDATE ASSET
-    public boolean updateAsset(int id, FixedAssets asset) {
+    public static boolean updateAsset(int id, FixedAssets asset) {
         boolean updated = false;
-        try{
-            String sql = "UPDATE Asset SET description = '"+asset.getProductDescription()+"', category = '"+asset.getProductCategory()+"', serialNumber = '"+asset.getProductSerialNumber()+"', purchaseDate = '"+asset.getProductPurchaseDate()+"', price = '"+asset.getProductPrice()+"', location = '"+asset.getProductLocation()+"', status = '"+asset.getProductStatus()+"' WHERE id = '"+id+"'";
+        try {
+            String sql = "UPDATE Asset SET description = '" + asset.getProductDescription() + "', category = '" + asset.getProductCategory() + "', serialNumber = '" + asset.getProductSerialNumber() + "', purchaseDate = '" + asset.getProductPurchaseDate() + "', price = '" + asset.getProductPrice() + "', location = '" + asset.getProductLocation() + "', status = '" + asset.getProductStatus() + "' WHERE id = '" + id + "'";
             connection = getConnection();
             statement = connection.createStatement();
             if (statement.executeUpdate(sql) > 0) {
@@ -212,17 +210,17 @@ public class DatabaseManager {
         }
         return updated;
     }
-    
+
     // DELETE ASSET
-    public boolean deleteAsset(int id) {
+    public static boolean deleteAsset(int id) {
         boolean deleted = false;
         try {
             String sql = "DELETE FROM Asset WHERE (id = '" + id + "')";
             connection = getConnection();
             statement = connection.createStatement();
-            if(statement.executeUpdate(sql) > 0) {
+            if (statement.executeUpdate(sql) > 0) {
                 deleted = true;
-            } 
+            }
             connection.close();
             statement.close();
         } catch (Exception e) {

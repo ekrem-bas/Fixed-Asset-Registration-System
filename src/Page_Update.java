@@ -234,9 +234,9 @@ public class Page_Update extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     // prepare components to be ready
-    private void setComponents(int id, FixedAssets asset){
+    private void setComponents(int id, FixedAssets asset) {
         selected_id = id;
         txt_id.setText(Integer.toString(selected_id));
         txt_description.setText(asset.getProductDescription());
@@ -250,7 +250,7 @@ public class Page_Update extends javax.swing.JFrame {
             chcbox_status.setSelected(false);
         }
     }
-    
+
     // check empty fields
     private boolean isEmptyField() {
         textFields.add(txt_description);
@@ -259,15 +259,11 @@ public class Page_Update extends javax.swing.JFrame {
         textFields.add(txt_price);
         int empty_count = 0;
         for (JTextField test : this.textFields) {
-            if(test.getText().trim().isEmpty()) {
+            if (test.getText().trim().isEmpty()) {
                 empty_count++;
             }
         }
-        if (empty_count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return empty_count > 0;
     }
 
     // get description
@@ -340,10 +336,10 @@ public class Page_Update extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
             FixedAssets asset = new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString());
-            if (new DatabaseManager().updateAsset(selected_id, asset)) {
+            if (DatabaseManager.updateAsset(selected_id, asset)) {
                 JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is updated!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-                new DatabaseManager().showAssets(Page_Home.model);
+                DatabaseManager.showAssets(Page_Home.model);
             } else {
                 JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is not updated!", "WARNING", JOptionPane.WARNING_MESSAGE);
             }
@@ -375,35 +371,35 @@ public class Page_Update extends javax.swing.JFrame {
 
     public static void main(String args[]) {
 
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(Page_Update.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
-    //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new Page_Update().setVisible(true);
-        }
-    });
-}
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Page_Update().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_cancel;
