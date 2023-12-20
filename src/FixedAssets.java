@@ -1,6 +1,7 @@
 
 public class FixedAssets {
 
+    private String productUser;
     private String productDescription;
     private String productCategory;
     private String productSerialNumber;
@@ -9,7 +10,8 @@ public class FixedAssets {
     private String productLocation;
     private String productStatus;
 
-    public FixedAssets(String productDescription, String productCategory, String productSerialNumber, String productPurchaseDate, String productPrice, String productLocation, String productStatus) {
+    public FixedAssets(String productUser, String productDescription, String productCategory, String productSerialNumber, String productPurchaseDate, String productPrice, String productLocation, String productStatus) {
+        this.productUser = productUser;
         this.productDescription = productDescription;
         this.productCategory = productCategory;
         this.productSerialNumber = productSerialNumber;
@@ -17,6 +19,10 @@ public class FixedAssets {
         this.productPrice = productPrice;
         this.productLocation = productLocation;
         this.productStatus = productStatus;
+    }
+
+    public String getProductUser() {
+        return productUser;
     }
 
     public String getProductDescription() {

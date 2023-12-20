@@ -1,4 +1,8 @@
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -279,7 +283,7 @@ public class Page_Register extends javax.swing.JFrame {
 
     // check name and get name string from text field
     private String getNameString() {
-        if (checker("^[A-Z][a-z]+$", txt_name.getText(), "Name", txt_name)) {
+        if (checker("^^[A-Z][A-Za-z\\s]+$", txt_name.getText(), "Name", txt_name)) {
             return txt_name.getText();
         } else {
             return "";
@@ -369,14 +373,17 @@ public class Page_Register extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_cancelActionPerformed
 
     private void btn_agreementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agreementActionPerformed
-        if (btn_agreement.isSelected() && !SubPage_TermsOfService.clickedCloseButton) {
-            new SubPage_TermsOfService().setVisible(true);
-            if (SubPage_TermsOfService.clickedCloseButton) {
-                btn_agreement.setSelected(true);
-                SubPage_TermsOfService.clickedCloseButton = false;
-            } else {
-                btn_agreement.setSelected(false);
-            }
+        if (btn_agreement.isSelected()) {
+            SubPage_TermsOfService termsPage = new SubPage_TermsOfService();
+            termsPage.setVisible(true);
+            btn_agreement.setSelected(false);
+            termsPage.btn_close.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    btn_agreement.setSelected(true);
+                    SubPage_TermsOfService.clickedCloseButton = false;
+                }
+            });
         }
     }//GEN-LAST:event_btn_agreementActionPerformed
 

@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -10,9 +11,12 @@ public class Page_Update extends javax.swing.JFrame {
 
     ArrayList<JTextField> textFields = new ArrayList<>();
     int selected_id;
+    DefaultComboBoxModel<String> dcbm;
 
     public Page_Update(int id, FixedAssets asset) {
         initComponents();
+        dcbm = (DefaultComboBoxModel<String>) cbox_user.getModel();
+        DatabaseManager.CBOXaddPersons(dcbm);
         setComponents(id, asset);
     }
 
@@ -44,6 +48,8 @@ public class Page_Update extends javax.swing.JFrame {
         txt_location = new javax.swing.JTextField();
         chcbox_status = new javax.swing.JCheckBox();
         jLabel16 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        cbox_user = new javax.swing.JComboBox<>();
         pnl_right = new javax.swing.JPanel();
         lbl_icon = new javax.swing.JLabel();
 
@@ -117,6 +123,13 @@ public class Page_Update extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel16.setText("PRICE");
 
+        jLabel8.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        jLabel8.setText("USER");
+        jLabel8.setPreferredSize(new java.awt.Dimension(83, 20));
+
+        cbox_user.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        cbox_user.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Company" }));
+
         javax.swing.GroupLayout pnl_leftLayout = new javax.swing.GroupLayout(pnl_left);
         pnl_left.setLayout(pnl_leftLayout);
         pnl_leftLayout.setHorizontalGroup(
@@ -124,16 +137,21 @@ public class Page_Update extends javax.swing.JFrame {
             .addGroup(pnl_leftLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_leftLayout.createSequentialGroup()
+                        .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                        .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnl_leftLayout.createSequentialGroup()
                         .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_description)
@@ -143,11 +161,8 @@ public class Page_Update extends javax.swing.JFrame {
                             .addComponent(txt_price)
                             .addComponent(txt_location)
                             .addComponent(txt_id)
-                            .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_leftLayout.createSequentialGroup()
-                        .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbox_user, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(25, 25, 25))
         );
         pnl_leftLayout.setVerticalGroup(
@@ -183,13 +198,17 @@ public class Page_Update extends javax.swing.JFrame {
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chcbox_status, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbox_user, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
                 .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         jSplitPane1.setLeftComponent(pnl_left);
@@ -204,16 +223,16 @@ public class Page_Update extends javax.swing.JFrame {
         pnl_rightLayout.setHorizontalGroup(
             pnl_rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_rightLayout.createSequentialGroup()
-                .addContainerGap(33, Short.MAX_VALUE)
+                .addContainerGap(17, Short.MAX_VALUE)
                 .addComponent(lbl_icon)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         pnl_rightLayout.setVerticalGroup(
             pnl_rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_rightLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addComponent(lbl_icon)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addComponent(lbl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
 
         jSplitPane1.setRightComponent(pnl_right);
@@ -226,9 +245,7 @@ public class Page_Update extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jSplitPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 616, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jSplitPane1)
         );
 
         pack();
@@ -244,6 +261,7 @@ public class Page_Update extends javax.swing.JFrame {
         txt_serialNumber.setText(asset.getProductSerialNumber());
         txt_price.setText(asset.getProductPrice());
         txt_location.setText(asset.getProductLocation());
+        dcbm.setSelectedItem(asset.getProductUser());
         if (asset.getProductStatus().equals("Active")) {
             chcbox_status.setSelected(true);
         } else {
@@ -314,6 +332,11 @@ public class Page_Update extends javax.swing.JFrame {
         }
     }
 
+    // get user
+    private String getUserString() {
+        return cbox_user.getSelectedItem().toString();
+    }
+
     // get location
     private String getLocationString() {
         return txt_location.getText();
@@ -335,7 +358,7 @@ public class Page_Update extends javax.swing.JFrame {
         if (isEmptyField() || getPriceString().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            FixedAssets asset = new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString());
+            FixedAssets asset = new FixedAssets(getUserString(), getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString());
             if (DatabaseManager.updateAsset(selected_id, asset)) {
                 JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is updated!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
@@ -405,6 +428,7 @@ public class Page_Update extends javax.swing.JFrame {
     private javax.swing.JButton btn_cancel;
     private javax.swing.JButton btn_update;
     private javax.swing.JComboBox<String> cbox_category;
+    private javax.swing.JComboBox<String> cbox_user;
     private javax.swing.JCheckBox chcbox_status;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -413,6 +437,7 @@ public class Page_Update extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lbl_icon;

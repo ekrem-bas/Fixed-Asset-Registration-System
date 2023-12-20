@@ -1,5 +1,6 @@
 
 import java.sql.*;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 public class DatabaseManager {
@@ -115,6 +116,26 @@ public class DatabaseManager {
         return showed;
     }
 
+    // ADD PERSONS INTO COMBOBOX 
+    public static boolean CBOXaddPersons(DefaultComboBoxModel dcbm) {
+        boolean added = false;
+        try {
+            String sql = "SELECT * FROM Person";
+            connection = getConnection();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sql);
+            while (resultSet.next()) {
+                dcbm.addElement(resultSet.getString("name"));
+                added = true;
+            }
+            connection.close();
+            statement.close();
+        } catch (Exception e) {
+            e.toString();
+        }
+        return added;
+    }
+
     // DELETE PERSON
     public static boolean delete(int id) {
         boolean deleted = false;
@@ -151,6 +172,7 @@ public class DatabaseManager {
             while (resultSet.next()) {
                 dtm.addRow(new Object[]{
                     resultSet.getInt("id"),
+                    resultSet.getString("user"),
                     resultSet.getString("description"),
                     resultSet.getString("category"),
                     resultSet.getString("serialNumber"),
@@ -172,8 +194,9 @@ public class DatabaseManager {
     public static boolean addAssets(FixedAssets asset) {
         boolean added = false;
         try {
-            String sql = "INSERT INTO Asset (description, category, serialNumber, purchaseDate, price, location, status) "
-                    + "VALUES ('" + asset.getProductDescription() + "',"
+            String sql = "INSERT INTO Asset (user, description, category, serialNumber, purchaseDate, price, location, status) "
+                    + "VALUES ('" + asset.getProductUser() + "',"
+                    + "'" + asset.getProductDescription() + "',"
                     + "'" + asset.getProductCategory() + "',"
                     + "'" + asset.getProductSerialNumber() + "',"
                     + "'" + asset.getProductPurchaseDate() + "',"
@@ -197,7 +220,7 @@ public class DatabaseManager {
     public static boolean updateAsset(int id, FixedAssets asset) {
         boolean updated = false;
         try {
-            String sql = "UPDATE Asset SET description = '" + asset.getProductDescription() + "', category = '" + asset.getProductCategory() + "', serialNumber = '" + asset.getProductSerialNumber() + "', purchaseDate = '" + asset.getProductPurchaseDate() + "', price = '" + asset.getProductPrice() + "', location = '" + asset.getProductLocation() + "', status = '" + asset.getProductStatus() + "' WHERE id = '" + id + "'";
+            String sql = "UPDATE Asset SET user = '" + asset.getProductUser() + "', description = '" + asset.getProductDescription() + "', category = '" + asset.getProductCategory() + "', serialNumber = '" + asset.getProductSerialNumber() + "', purchaseDate = '" + asset.getProductPurchaseDate() + "', price = '" + asset.getProductPrice() + "', location = '" + asset.getProductLocation() + "', status = '" + asset.getProductStatus() + "' WHERE id = '" + id + "'";
             connection = getConnection();
             statement = connection.createStatement();
             if (statement.executeUpdate(sql) > 0) {

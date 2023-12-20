@@ -315,7 +315,7 @@ public class SubPage_TermsOfService extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_close;
+    public javax.swing.JButton btn_close;
     private javax.swing.JButton btn_next1;
     private javax.swing.JButton btn_next2;
     private javax.swing.JButton btn_next3;

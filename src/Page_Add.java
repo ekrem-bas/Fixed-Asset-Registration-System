@@ -2,6 +2,7 @@
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -10,9 +11,10 @@ public class Page_Add extends javax.swing.JFrame {
 
     public Page_Add() {
         initComponents();
+        addUsersToCBox();
         addFieldstoArrayList();
     }
-
+    DefaultComboBoxModel<String> dcbm;
     ArrayList<JTextField> textFields = new ArrayList<>();
 
     @SuppressWarnings("unchecked")
@@ -37,10 +39,13 @@ public class Page_Add extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btn_apply = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        cbox_user = new javax.swing.JComboBox<>();
         pnl_right = new javax.swing.JPanel();
         lbl_icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(1168, 676));
 
         txt_location.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
@@ -89,6 +94,7 @@ public class Page_Add extends javax.swing.JFrame {
 
         jLabel6.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel6.setText("LOCATION");
+        jLabel6.setRequestFocusEnabled(false);
 
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel3.setText("SERIAL NUMBER");
@@ -101,6 +107,13 @@ public class Page_Add extends javax.swing.JFrame {
             }
         });
 
+        jLabel8.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
+        jLabel8.setText("USER");
+        jLabel8.setPreferredSize(new java.awt.Dimension(83, 20));
+
+        cbox_user.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        cbox_user.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "<none>", "Company" }));
+
         javax.swing.GroupLayout pnl_leftLayout = new javax.swing.GroupLayout(pnl_left);
         pnl_left.setLayout(pnl_leftLayout);
         pnl_leftLayout.setHorizontalGroup(
@@ -110,13 +123,14 @@ public class Page_Add extends javax.swing.JFrame {
                 .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnl_leftLayout.createSequentialGroup()
                         .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(18, 18, 18)
                         .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_description)
@@ -125,7 +139,8 @@ public class Page_Add extends javax.swing.JFrame {
                             .addComponent(spinner_date)
                             .addComponent(txt_price)
                             .addComponent(txt_location)
-                            .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbox_user, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_leftLayout.createSequentialGroup()
                         .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
@@ -161,9 +176,13 @@ public class Page_Add extends javax.swing.JFrame {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chcbox_status, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(50, 50, 50)
+                    .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cbox_user, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
                 .addGroup(pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btn_apply, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -182,16 +201,16 @@ public class Page_Add extends javax.swing.JFrame {
         pnl_rightLayout.setHorizontalGroup(
             pnl_rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_rightLayout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(lbl_icon)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
         pnl_rightLayout.setVerticalGroup(
             pnl_rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_rightLayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(lbl_icon)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(50, 50, 50))
         );
 
         jSplitPane1.setRightComponent(pnl_right);
@@ -219,6 +238,12 @@ public class Page_Add extends javax.swing.JFrame {
         textFields.add(txt_price);
     }
 
+    // add persons to user list
+    private void addUsersToCBox() {
+        dcbm = (DefaultComboBoxModel<String>) cbox_user.getModel();
+        DatabaseManager.CBOXaddPersons(dcbm);
+    }
+
     // cancel button
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         this.dispose();
@@ -233,6 +258,11 @@ public class Page_Add extends javax.swing.JFrame {
             }
         }
         return empty_count > 0;
+    }
+
+    // get user
+    private String getUserString() {
+        return cbox_user.getSelectedItem().toString();
     }
 
     // get description
@@ -297,10 +327,10 @@ public class Page_Add extends javax.swing.JFrame {
         }
     }
     private void btn_applyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applyActionPerformed
-        if (isEmptyField() || getPriceString().isEmpty()) {
+        if (isEmptyField() || getPriceString().isEmpty() || cbox_user.getSelectedItem().toString().equals("<none>")) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            DatabaseManager.addAssets(new FixedAssets(getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
+            DatabaseManager.addAssets(new FixedAssets(getUserString(), getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
             JOptionPane.showMessageDialog(rootPane, getDescriptionString() + " is added to assets.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             DatabaseManager.showAssets(Page_Home.model);
             this.dispose();
@@ -368,6 +398,7 @@ public class Page_Add extends javax.swing.JFrame {
     private javax.swing.JButton btn_apply;
     private javax.swing.JButton btn_cancel;
     private javax.swing.JComboBox<String> cbox_category;
+    private javax.swing.JComboBox<String> cbox_user;
     private javax.swing.JCheckBox chcbox_status;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -376,6 +407,7 @@ public class Page_Add extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JLabel lbl_icon;
     private javax.swing.JPanel pnl_left;
