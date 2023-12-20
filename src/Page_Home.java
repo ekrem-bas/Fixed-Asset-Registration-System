@@ -50,6 +50,8 @@ public class Page_Home extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mbtn_showPersons = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        mbtn_logOut = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
         mbtn_quit = new javax.swing.JMenuItem();
 
         PopupMenu.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
@@ -84,8 +86,11 @@ public class Page_Home extends javax.swing.JFrame {
         });
         PopupMenu.add(mbtn_delete);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -234,6 +239,16 @@ public class Page_Home extends javax.swing.JFrame {
         jMenu1.add(mbtn_showPersons);
         jMenu1.add(jSeparator3);
 
+        mbtn_logOut.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mbtn_logOut.setText("Log out");
+        mbtn_logOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbtn_logOutActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mbtn_logOut);
+        jMenu1.add(jSeparator5);
+
         mbtn_quit.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         mbtn_quit.setText("Quit FARS");
         mbtn_quit.addActionListener(new java.awt.event.ActionListener() {
@@ -267,7 +282,10 @@ public class Page_Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void mbtn_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_quitActionPerformed
-        System.exit(0);
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(input == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }//GEN-LAST:event_mbtn_quitActionPerformed
 
     private void mbtn_showPersonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_showPersonsActionPerformed
@@ -387,6 +405,18 @@ public class Page_Home extends javax.swing.JFrame {
         setIcon(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 3).toString());
     }//GEN-LAST:event_tbl_assetsMousePressed
 
+    private void mbtn_logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_logOutActionPerformed
+        new Page_Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_mbtn_logOutActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(input == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -433,12 +463,14 @@ public class Page_Home extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_welcomeBack;
     private javax.swing.JMenuItem mbtn_add;
     private javax.swing.JMenuItem mbtn_copy;
     private javax.swing.JMenuItem mbtn_delete;
+    private javax.swing.JMenuItem mbtn_logOut;
     private javax.swing.JMenuItem mbtn_quit;
     private javax.swing.JMenuItem mbtn_showPersons;
     private javax.swing.JMenuItem mbtn_update;

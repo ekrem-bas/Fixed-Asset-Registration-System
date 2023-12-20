@@ -24,8 +24,13 @@ public class Page_Login extends javax.swing.JFrame {
         png_asset = new javax.swing.JLabel();
         txt_password = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Fixed Asset Registration System");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         lbl_mail.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         lbl_mail.setText("MAIL");
@@ -155,6 +160,13 @@ public class Page_Login extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btn_loginActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(input == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
 

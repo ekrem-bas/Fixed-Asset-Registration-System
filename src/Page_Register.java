@@ -1,8 +1,6 @@
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,8 +39,13 @@ public class Page_Register extends javax.swing.JFrame {
         lbl_position = new javax.swing.JLabel();
         cbox_position = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("FARS - REGISTER");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 16)); // NOI18N
         jLabel1.setText("NAME");
@@ -364,7 +367,7 @@ public class Page_Register extends javax.swing.JFrame {
 
 
     private void lbl_termsOfServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_termsOfServiceMouseClicked
-        new SubPage_TermsOfService().setVisible(true);
+        setBtnAgreement();
     }//GEN-LAST:event_lbl_termsOfServiceMouseClicked
 
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
@@ -372,9 +375,8 @@ public class Page_Register extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btn_cancelActionPerformed
 
-    private void btn_agreementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agreementActionPerformed
-        if (btn_agreement.isSelected()) {
-            SubPage_TermsOfService termsPage = new SubPage_TermsOfService();
+    private void setBtnAgreement(){
+        SubPage_TermsOfService termsPage = new SubPage_TermsOfService();
             termsPage.setVisible(true);
             btn_agreement.setSelected(false);
             termsPage.btn_close.addActionListener(new ActionListener() {
@@ -384,6 +386,10 @@ public class Page_Register extends javax.swing.JFrame {
                     SubPage_TermsOfService.clickedCloseButton = false;
                 }
             });
+    }
+    private void btn_agreementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agreementActionPerformed
+        if (btn_agreement.isSelected()) {
+            setBtnAgreement();
         }
     }//GEN-LAST:event_btn_agreementActionPerformed
 
@@ -411,6 +417,11 @@ public class Page_Register extends javax.swing.JFrame {
             new Page_Login().setVisible(true);
         }
     }//GEN-LAST:event_btn_registerActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        new Page_Login().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_formWindowClosing
 
     public static void main(String args[]) {
 
