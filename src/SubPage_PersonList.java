@@ -16,6 +16,8 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     private void initComponents() {
 
         pmenu = new javax.swing.JPopupMenu();
+        pbtn_copy = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         pbtn_delete = new javax.swing.JMenuItem();
         jSplitPane2 = new javax.swing.JSplitPane();
         pnl_top = new javax.swing.JPanel();
@@ -23,6 +25,16 @@ public class SubPage_PersonList extends javax.swing.JFrame {
         pnl_bottom = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_persons = new javax.swing.JTable();
+
+        pbtn_copy.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        pbtn_copy.setText("Copy");
+        pbtn_copy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pbtn_copyActionPerformed(evt);
+            }
+        });
+        pmenu.add(pbtn_copy);
+        pmenu.add(jSeparator1);
 
         pbtn_delete.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         pbtn_delete.setText("Delete");
@@ -143,6 +155,12 @@ public class SubPage_PersonList extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
+    private void pbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtn_copyActionPerformed
+        if(!Page_Home.btn_copyActionPerformed(evt, dtm, tbl_persons)) {
+            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_pbtn_copyActionPerformed
+
     public static void main(String args[]) {
 
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -192,7 +210,9 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_delete;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSplitPane jSplitPane2;
+    private javax.swing.JMenuItem pbtn_copy;
     private javax.swing.JMenuItem pbtn_delete;
     private javax.swing.JPopupMenu pmenu;
     private javax.swing.JPanel pnl_bottom;

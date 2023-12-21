@@ -4,6 +4,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -341,15 +342,22 @@ public class Page_Home extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btn_updateActionPerformed
-
-    private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
-        if (tbl_assets.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+    
+    public static boolean btn_copyActionPerformed(java.awt.event.ActionEvent evt, DefaultTableModel model, JTable tbl) {
+        if (tbl.getSelectedRow() == -1) {
+            return false;
         } else {
-            String copy = model.getDataVector().get(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow())).toString();
+            String copy = model.getDataVector().get(tbl.convertRowIndexToModel(tbl.getSelectedRow())).toString();
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection stringSelection = new StringSelection(copy);
             clipboard.setContents(stringSelection, null);
+            return true;
+        }
+    }
+    
+    private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
+        if(!btn_copyActionPerformed(evt, model, tbl_assets)) {
+            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_mbtn_copyActionPerformed
 
