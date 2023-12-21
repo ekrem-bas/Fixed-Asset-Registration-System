@@ -160,7 +160,7 @@ public class Page_Home extends javax.swing.JFrame {
                         .addComponent(btn_add, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnl_upLayout.createSequentialGroup()
                         .addComponent(lbl_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(25, 25, 25)
                         .addComponent(pnl_icon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(50, 50, 50))
         );
@@ -182,6 +182,7 @@ public class Page_Home extends javax.swing.JFrame {
                 .addGap(25, 25, 25))
         );
 
+        tbl_assets.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         tbl_assets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -273,7 +274,7 @@ public class Page_Home extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(pnl_up, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(pnl_down, javax.swing.GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
         );
 
@@ -283,7 +284,7 @@ public class Page_Home extends javax.swing.JFrame {
 
     private void mbtn_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_quitActionPerformed
         int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(input == JOptionPane.YES_OPTION) {
+        if (input == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_mbtn_quitActionPerformed
@@ -406,13 +407,16 @@ public class Page_Home extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_assetsMousePressed
 
     private void mbtn_logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_logOutActionPerformed
-        new Page_Login().setVisible(true);
-        this.dispose();
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to log out?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (input == JOptionPane.YES_OPTION) {
+            new Page_Login().setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_mbtn_logOutActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(input == JOptionPane.YES_OPTION) {
+        if (input == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
