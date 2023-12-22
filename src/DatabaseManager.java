@@ -53,7 +53,6 @@ public class DatabaseManager {
                 connection.close();
                 statement.close();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
