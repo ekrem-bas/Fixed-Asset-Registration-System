@@ -19,7 +19,7 @@ public class DatabaseManager {
         return DriverManager.getConnection(URL, USERNAME, PASSWORD);
     }
 
-    // check permission 
+    // CHECK PERMISSION
     public static boolean checkPermission() {
         if (!loggedPerson.getPosition().equals("General Manager")) {
             return false;
@@ -69,7 +69,8 @@ public class DatabaseManager {
             resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {
                 found = true;
-                Person person = new Person(resultSet.getString("name"),
+                Person person = new Person(
+                        resultSet.getString("name"),
                         resultSet.getString("surname"),
                         resultSet.getString("phone"),
                         resultSet.getString("mail"),
@@ -153,7 +154,6 @@ public class DatabaseManager {
         return deleted;
     }
 
-    // TODO: asset teable (update, (same frame: delete, show))
     // ADD ASSETS (done)
     // SHOW ASSETS (done)
     // UPDATE ASSETS (done)
@@ -219,7 +219,15 @@ public class DatabaseManager {
     public static boolean updateAsset(int id, FixedAssets asset) {
         boolean updated = false;
         try {
-            String sql = "UPDATE Asset SET user = '" + asset.getProductUser() + "', description = '" + asset.getProductDescription() + "', category = '" + asset.getProductCategory() + "', serialNumber = '" + asset.getProductSerialNumber() + "', purchaseDate = '" + asset.getProductPurchaseDate() + "', price = '" + asset.getProductPrice() + "', location = '" + asset.getProductLocation() + "', status = '" + asset.getProductStatus() + "' WHERE id = '" + id + "'";
+            String sql = "UPDATE Asset SET user = '" + asset.getProductUser() + "',"
+                    + " description = '" + asset.getProductDescription() + "',"
+                    + " category = '" + asset.getProductCategory() + "',"
+                    + " serialNumber = '" + asset.getProductSerialNumber() + "',"
+                    + " purchaseDate = '" + asset.getProductPurchaseDate() + "',"
+                    + " price = '" + asset.getProductPrice() + "',"
+                    + " location = '" + asset.getProductLocation() + "',"
+                    + " status = '" + asset.getProductStatus() + "'"
+                    + " WHERE id = '" + id + "'";
             connection = getConnection();
             statement = connection.createStatement();
             if (statement.executeUpdate(sql) > 0) {

@@ -9,14 +9,14 @@ import javax.swing.JTextField;
 
 public class Page_Add extends javax.swing.JFrame {
 
+    DefaultComboBoxModel<String> dcbm;
+    ArrayList<JTextField> textFields = new ArrayList<>();
     public Page_Add() {
         initComponents();
         addUsersToCBox();
         addFieldstoArrayList();
     }
-    DefaultComboBoxModel<String> dcbm;
-    ArrayList<JTextField> textFields = new ArrayList<>();
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -45,6 +45,7 @@ public class Page_Add extends javax.swing.JFrame {
         lbl_icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("ADD");
         setPreferredSize(new java.awt.Dimension(1168, 676));
 
         txt_location.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N

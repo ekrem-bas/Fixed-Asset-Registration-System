@@ -32,7 +32,7 @@ public class SubPage_TermsOfService extends javax.swing.JFrame {
         jTextArea5 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Terms of Service");
+        setTitle("FARS - Terms of Service");
 
         tabbed_pane.setForeground(new java.awt.Color(255, 255, 255));
         tabbed_pane.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);

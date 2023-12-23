@@ -12,7 +12,6 @@ public class Page_Update extends javax.swing.JFrame {
     ArrayList<JTextField> textFields = new ArrayList<>();
     int selected_id;
     DefaultComboBoxModel<String> dcbm;
-
     public Page_Update(int id, FixedAssets asset) {
         initComponents();
         dcbm = (DefaultComboBoxModel<String>) cbox_user.getModel();
@@ -54,6 +53,7 @@ public class Page_Update extends javax.swing.JFrame {
         lbl_icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("UPDATE");
 
         jSplitPane1.setDividerLocation(584);
 

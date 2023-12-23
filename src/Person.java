@@ -10,10 +10,6 @@ public class Person {
     private String gender;
     private String position;
 
-    public Person() {
-
-    }
-
     public Person(String name, String surname, String phone, String mail, String password, String gender, String position) {
         this.name = name;
         this.surname = surname;

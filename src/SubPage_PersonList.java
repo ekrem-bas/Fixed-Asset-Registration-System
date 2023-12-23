@@ -46,6 +46,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
         pmenu.add(pbtn_delete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("EMPLOYEES");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -67,9 +68,9 @@ public class SubPage_PersonList extends javax.swing.JFrame {
         pnl_topLayout.setHorizontalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_topLayout.createSequentialGroup()
-                .addContainerGap(217, Short.MAX_VALUE)
+                .addContainerGap(296, Short.MAX_VALUE)
                 .addComponent(btn_delete, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addContainerGap(294, Short.MAX_VALUE))
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -98,17 +99,24 @@ public class SubPage_PersonList extends javax.swing.JFrame {
             }
         });
         tbl_persons.setComponentPopupMenu(pmenu);
+        tbl_persons.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tbl_persons);
+        if (tbl_persons.getColumnModel().getColumnCount() > 0) {
+            tbl_persons.getColumnModel().getColumn(0).setResizable(false);
+            tbl_persons.getColumnModel().getColumn(0).setPreferredWidth(10);
+            tbl_persons.getColumnModel().getColumn(5).setResizable(false);
+            tbl_persons.getColumnModel().getColumn(5).setPreferredWidth(10);
+        }
 
         javax.swing.GroupLayout pnl_bottomLayout = new javax.swing.GroupLayout(pnl_bottom);
         pnl_bottom.setLayout(pnl_bottomLayout);
         pnl_bottomLayout.setHorizontalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 642, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
         pnl_bottomLayout.setVerticalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
         );
 
         jSplitPane2.setRightComponent(pnl_bottom);
@@ -156,9 +164,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_deleteActionPerformed
 
     private void pbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtn_copyActionPerformed
-        if(!Page_Home.btn_copyActionPerformed(evt, dtm, tbl_persons)) {
-            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+        Page_Home.btn_copyActionPerformed(evt, dtm, tbl_persons);
     }//GEN-LAST:event_pbtn_copyActionPerformed
 
     public static void main(String args[]) {

@@ -12,14 +12,13 @@ import javax.swing.table.TableRowSorter;
 public class Page_Home extends javax.swing.JFrame {
 
     static DefaultTableModel model;
-
     public Page_Home(Person person) {
         initComponents();
         model = (DefaultTableModel) tbl_assets.getModel();
         person = DatabaseManager.loggedPerson;
         lbl_name.setText(person.getName());
     }
-
+    
     public Page_Home() {
         initComponents();
     }
@@ -88,6 +87,7 @@ public class Page_Home extends javax.swing.JFrame {
         PopupMenu.add(mbtn_delete);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("FARS - HOME");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -154,8 +154,8 @@ public class Page_Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_upLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_upLayout.createSequentialGroup()
-                        .addComponent(cbox_filter, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cbox_filter, 0, 394, Short.MAX_VALUE)
+                        .addGap(100, 100, 100)
                         .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbl_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(50, 50, 50)
@@ -215,7 +215,9 @@ public class Page_Home extends javax.swing.JFrame {
         });
         pnl_down.setViewportView(tbl_assets);
         if (tbl_assets.getColumnModel().getColumnCount() > 0) {
+            tbl_assets.getColumnModel().getColumn(0).setResizable(false);
             tbl_assets.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tbl_assets.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jMenu1.setText("Operations");
@@ -268,7 +270,7 @@ public class Page_Home extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnl_up, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnl_down, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
+            .addComponent(pnl_down)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,7 +283,7 @@ public class Page_Home extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void mbtn_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_quitActionPerformed
         int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (input == JOptionPane.YES_OPTION) {
@@ -335,29 +337,31 @@ public class Page_Home extends javax.swing.JFrame {
                         model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 7).toString(),
                         model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 8).toString()
                 );
-                new Page_Update(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()), asset).setVisible(true);
+                new Page_Update((int) (model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0)), asset).setVisible(true);
             }
         } else {
             JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btn_updateActionPerformed
-    
-    public static boolean btn_copyActionPerformed(java.awt.event.ActionEvent evt, DefaultTableModel model, JTable tbl) {
-        if (tbl.getSelectedRow() == -1) {
-            return false;
-        } else {
-            String copy = model.getDataVector().get(tbl.convertRowIndexToModel(tbl.getSelectedRow())).toString();
+
+    public static void btn_copyActionPerformed(java.awt.event.ActionEvent evt, DefaultTableModel model, JTable tbl) {
+        String copy = "";
+        int[] selectedRows = tbl.getSelectedRows();
+        for (int i = 0; i < selectedRows.length; i++) {
+            int modelRow = tbl.convertRowIndexToModel(selectedRows[i]);
+            copy += model.getDataVector().get(modelRow);
+        }
+        if (!copy.equals("")) {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection stringSelection = new StringSelection(copy);
             clipboard.setContents(stringSelection, null);
-            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "There is  nothing selected from table!", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
-    }
-    
+} 
+
     private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
-        if(!btn_copyActionPerformed(evt, model, tbl_assets)) {
-            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+        btn_copyActionPerformed(evt, model, tbl_assets);
     }//GEN-LAST:event_mbtn_copyActionPerformed
 
     private void mbtn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_deleteActionPerformed
@@ -365,10 +369,10 @@ public class Page_Home extends javax.swing.JFrame {
             if (tbl_assets.getSelectedRow() == -1) {
                 JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
-                if (DatabaseManager.deleteAsset(Integer.parseInt(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0).toString()))) {
+                if (DatabaseManager.deleteAsset((int) (model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0)))) {
                     JOptionPane.showMessageDialog(
                             rootPane,
-                            model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " is deleted.",
+                            model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 2) + " is deleted.",
                             "INFORMATION",
                             JOptionPane.INFORMATION_MESSAGE
                     );
@@ -376,7 +380,7 @@ public class Page_Home extends javax.swing.JFrame {
                 } else {
                     JOptionPane.showMessageDialog(
                             rootPane,
-                            model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1) + " cannot deleted.",
+                            model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 2) + " cannot deleted.",
                             "WARNING",
                             JOptionPane.WARNING_MESSAGE
                     );
@@ -388,26 +392,26 @@ public class Page_Home extends javax.swing.JFrame {
     }//GEN-LAST:event_mbtn_deleteActionPerformed
 
     private void setIcon(String category) {
-        ImageIcon imageIcon = null;
-        switch (category) {
-            case "Buildings":
-                imageIcon = new ImageIcon("src/assets/building64px.png");
-                break;
-            case "Electronics":
-                imageIcon = new ImageIcon("src/assets/electronics64px.png");
-                break;
-            case "Land":
-                imageIcon = new ImageIcon("src/assets/land64px.png");
-                break;
-            case "Office Furniture":
-                imageIcon = new ImageIcon("src/assets/office64px.png");
-                break;
-            case "Vehicles":
-                imageIcon = new ImageIcon("src/assets/vehicle64px.png");
-                break;
-        }
-        icon.setIcon(imageIcon);
+    ImageIcon imageIcon = null;
+    switch (category) {
+        case "Buildings":
+            imageIcon = new ImageIcon("src/assets/building64px.png");
+            break;
+        case "Electronics":
+            imageIcon = new ImageIcon("src/assets/electronics64px.png");
+            break;
+        case "Land":
+            imageIcon = new ImageIcon("src/assets/land64px.png");
+            break;
+        case "Office Furniture":
+            imageIcon = new ImageIcon("src/assets/office64px.png");
+            break;
+        case "Vehicles":
+            imageIcon = new ImageIcon("src/assets/vehicle64px.png");
+            break;
     }
+    icon.setIcon(imageIcon);
+}
 
     private void tbl_assetsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_assetsMousePressed
         setIcon(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 3).toString());
@@ -430,37 +434,37 @@ public class Page_Home extends javax.swing.JFrame {
 
     public static void main(String args[]) {
 
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+     */
+    try {
+        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Page_Home().setVisible(true);
-            }
-        });
+    } catch (ClassNotFoundException ex) {
+        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (InstantiationException ex) {
+        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (IllegalAccessException ex) {
+        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
     }
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+    //</editor-fold>
+
+    java.awt.EventQueue.invokeLater(new Runnable() {
+        public void run() {
+            new Page_Home().setVisible(true);
+        }
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu PopupMenu;
