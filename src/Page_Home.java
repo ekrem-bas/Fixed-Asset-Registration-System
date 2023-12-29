@@ -45,14 +45,16 @@ public class Page_Home extends javax.swing.JFrame {
         pnl_down = new javax.swing.JScrollPane();
         tbl_assets = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu2 = new javax.swing.JMenu();
+        mbtn_export = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        mbtn_logOut = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        mbtn_quit = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         mbtn_add = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         mbtn_showPersons = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        mbtn_logOut = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        mbtn_quit = new javax.swing.JMenuItem();
 
         PopupMenu.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
@@ -88,6 +90,11 @@ public class Page_Home extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("FARS - HOME");
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -154,7 +161,7 @@ public class Page_Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_upLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_upLayout.createSequentialGroup()
-                        .addComponent(cbox_filter, 0, 394, Short.MAX_VALUE)
+                        .addComponent(cbox_filter, 0, 644, Short.MAX_VALUE)
                         .addGap(100, 100, 100)
                         .addComponent(btn_update, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lbl_name, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -217,8 +224,42 @@ public class Page_Home extends javax.swing.JFrame {
         if (tbl_assets.getColumnModel().getColumnCount() > 0) {
             tbl_assets.getColumnModel().getColumn(0).setResizable(false);
             tbl_assets.getColumnModel().getColumn(0).setPreferredWidth(20);
+            tbl_assets.getColumnModel().getColumn(1).setPreferredWidth(100);
             tbl_assets.getColumnModel().getColumn(3).setResizable(false);
         }
+
+        jMenu2.setText("File");
+
+        mbtn_export.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mbtn_export.setText("Export");
+        mbtn_export.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbtn_exportActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mbtn_export);
+        jMenu2.add(jSeparator6);
+
+        mbtn_logOut.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mbtn_logOut.setText("Log out");
+        mbtn_logOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbtn_logOutActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mbtn_logOut);
+        jMenu2.add(jSeparator5);
+
+        mbtn_quit.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
+        mbtn_quit.setText("Quit FARS");
+        mbtn_quit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mbtn_quitActionPerformed(evt);
+            }
+        });
+        jMenu2.add(mbtn_quit);
+
+        jMenuBar1.add(jMenu2);
 
         jMenu1.setText("Operations");
 
@@ -240,26 +281,6 @@ public class Page_Home extends javax.swing.JFrame {
             }
         });
         jMenu1.add(mbtn_showPersons);
-        jMenu1.add(jSeparator3);
-
-        mbtn_logOut.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        mbtn_logOut.setText("Log out");
-        mbtn_logOut.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mbtn_logOutActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mbtn_logOut);
-        jMenu1.add(jSeparator5);
-
-        mbtn_quit.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        mbtn_quit.setText("Quit FARS");
-        mbtn_quit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                mbtn_quitActionPerformed(evt);
-            }
-        });
-        jMenu1.add(mbtn_quit);
 
         jMenuBar1.add(jMenu1);
 
@@ -324,8 +345,8 @@ public class Page_Home extends javax.swing.JFrame {
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         if (DatabaseManager.checkPermission()) {
-            if (tbl_assets.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            if (tbl_assets.getSelectedRows().length != 1) {
+                JOptionPane.showMessageDialog(rootPane, "Please select exactly one row from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 FixedAssets asset = new FixedAssets(
                         model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1).toString(),
@@ -349,7 +370,7 @@ public class Page_Home extends javax.swing.JFrame {
         int[] selectedRows = tbl.getSelectedRows();
         for (int i = 0; i < selectedRows.length; i++) {
             int modelRow = tbl.convertRowIndexToModel(selectedRows[i]);
-            copy += model.getDataVector().get(modelRow);
+            copy += model.getDataVector().get(modelRow) + "\n";
         }
         if (!copy.equals("")) {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -366,8 +387,8 @@ public class Page_Home extends javax.swing.JFrame {
 
     private void mbtn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_deleteActionPerformed
         if (DatabaseManager.checkPermission()) {
-            if (tbl_assets.getSelectedRow() == -1) {
-                JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            if (tbl_assets.getSelectedRows().length != 1) {
+                JOptionPane.showMessageDialog(rootPane, "Please select exactly one row from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 if (DatabaseManager.deleteAsset((int) (model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0)))) {
                     JOptionPane.showMessageDialog(
@@ -432,6 +453,16 @@ public class Page_Home extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowClosing
 
+    private void mbtn_exportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_exportActionPerformed
+        new Page_Export().setVisible(true);
+    }//GEN-LAST:event_mbtn_exportActionPerformed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        if (evt.getComponent() != tbl_assets) {
+            tbl_assets.clearSelection();
+        }
+    }//GEN-LAST:event_formMouseClicked
+
     public static void main(String args[]) {
 
     //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -473,18 +504,20 @@ public class Page_Home extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbox_filter;
     private javax.swing.JLabel icon;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JLabel lbl_filter;
     private javax.swing.JLabel lbl_name;
     private javax.swing.JLabel lbl_welcomeBack;
     private javax.swing.JMenuItem mbtn_add;
     private javax.swing.JMenuItem mbtn_copy;
     private javax.swing.JMenuItem mbtn_delete;
+    private javax.swing.JMenuItem mbtn_export;
     private javax.swing.JMenuItem mbtn_logOut;
     private javax.swing.JMenuItem mbtn_quit;
     private javax.swing.JMenuItem mbtn_showPersons;
