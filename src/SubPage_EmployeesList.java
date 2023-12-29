@@ -2,13 +2,13 @@
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-public class SubPage_PersonList extends javax.swing.JFrame {
+public class SubPage_EmployeesList extends javax.swing.JFrame {
 
-    DefaultTableModel dtm;
+    DefaultTableModel model;
 
-    public SubPage_PersonList() {
+    public SubPage_EmployeesList() {
         initComponents();
-        dtm = (DefaultTableModel) tbl_persons.getModel();
+        model = (DefaultTableModel) tbl_persons.getModel();
     }
 
     @SuppressWarnings("unchecked")
@@ -17,7 +17,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
 
         pmenu = new javax.swing.JPopupMenu();
         pbtn_copy = new javax.swing.JMenuItem();
-        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         pbtn_delete = new javax.swing.JMenuItem();
         jSplitPane2 = new javax.swing.JSplitPane();
         pnl_top = new javax.swing.JPanel();
@@ -34,7 +34,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
             }
         });
         pmenu.add(pbtn_copy);
-        pmenu.add(jSeparator1);
+        pmenu.add(jSeparator2);
 
         pbtn_delete.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         pbtn_delete.setText("Delete");
@@ -137,7 +137,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        if (DatabaseManager.showPersons(dtm)) {
+        if (DatabaseManager.showPersons(model)) {
             if (DatabaseManager.checkPermission()) {
                 JOptionPane.showMessageDialog(rootPane, tbl_persons.getRowCount() + " person found!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -146,25 +146,44 @@ public class SubPage_PersonList extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formWindowOpened
 
+    // delete employee operation
     private void btn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deleteActionPerformed
-        if (tbl_persons.getSelectedRow() == -1) {
-            JOptionPane.showMessageDialog(rootPane, "Nothing was selected from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
-        } else {
+        try {
             if (DatabaseManager.checkPermission()) {
-                if (DatabaseManager.delete((int) dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(0))) {
-                    JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " deleted.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                    DatabaseManager.showPersons(dtm);
+                if (tbl_persons.getSelectedRows().length != 1) {
+                    // CUSTOM EXCEPTION
+                    throw new Exception("Please select exactly one row from table!");
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, dtm.getDataVector().get(tbl_persons.getSelectedRow()).elementAt(1) + " cannot deleted.");
+                    int selection = JOptionPane.showConfirmDialog(rootPane, "Are you sure to delete " + model.getValueAt(tbl_persons.getSelectedRow(), 1).toString() + "?", "Are you sure?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (selection == JOptionPane.YES_OPTION) {
+                        if (DatabaseManager.delete((int) (model.getValueAt(tbl_persons.convertRowIndexToModel(tbl_persons.getSelectedRow()), 0)))) {
+                            JOptionPane.showMessageDialog(
+                                    rootPane,
+                                    model.getValueAt(tbl_persons.convertRowIndexToModel(tbl_persons.getSelectedRow()), 1) + " is deleted.",
+                                    "INFORMATION",
+                                    JOptionPane.INFORMATION_MESSAGE
+                            );
+                            DatabaseManager.showPersons(model);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    rootPane,
+                                    model.getValueAt(tbl_persons.convertRowIndexToModel(tbl_persons.getSelectedRow()), 1) + " cannot deleted.",
+                                    "WARNING",
+                                    JOptionPane.WARNING_MESSAGE
+                            );
+                        }
+                    }
                 }
             } else {
-                JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Sorry you do not have a permission to do this!", "Sorry", JOptionPane.INFORMATION_MESSAGE);
             }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage(), "Error", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btn_deleteActionPerformed
 
     private void pbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pbtn_copyActionPerformed
-        Page_Home.btn_copyActionPerformed(evt, dtm, tbl_persons);
+        Page_Home.btn_copyActionPerformed(evt, model, tbl_persons);
     }//GEN-LAST:event_pbtn_copyActionPerformed
 
     public static void main(String args[]) {
@@ -181,16 +200,32 @@ public class SubPage_PersonList extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SubPage_PersonList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SubPage_EmployeesList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SubPage_PersonList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SubPage_EmployeesList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SubPage_PersonList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SubPage_EmployeesList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SubPage_PersonList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SubPage_EmployeesList.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>.toString()
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -208,7 +243,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SubPage_PersonList().setVisible(true);
+                new SubPage_EmployeesList().setVisible(true);
             }
         });
     }
@@ -216,7 +251,7 @@ public class SubPage_PersonList extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_delete;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JSplitPane jSplitPane2;
     private javax.swing.JMenuItem pbtn_copy;
     private javax.swing.JMenuItem pbtn_delete;

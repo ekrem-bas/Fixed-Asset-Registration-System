@@ -1,10 +1,13 @@
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 public class Page_Update extends javax.swing.JFrame {
@@ -12,6 +15,7 @@ public class Page_Update extends javax.swing.JFrame {
     ArrayList<JTextField> textFields = new ArrayList<>();
     int selected_id;
     DefaultComboBoxModel<String> dcbm;
+
     public Page_Update(int id, FixedAssets asset) {
         initComponents();
         dcbm = (DefaultComboBoxModel<String>) cbox_user.getModel();
@@ -88,7 +92,8 @@ public class Page_Update extends javax.swing.JFrame {
         txt_description.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
         spinner_date.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        spinner_date.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(946677600000L), new java.util.Date(2553454800000L), java.util.Calendar.DAY_OF_MONTH));
+        spinner_date.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.DAY_OF_MONTH));
+        spinner_date.setEditor(new JSpinner.DateEditor(spinner_date, "dd.MM.yyyy"));
 
         txt_serialNumber.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
@@ -163,7 +168,7 @@ public class Page_Update extends javax.swing.JFrame {
                             .addComponent(txt_id)
                             .addComponent(chcbox_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbox_user, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(25, 25, 25))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         pnl_leftLayout.setVerticalGroup(
             pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,7 +228,7 @@ public class Page_Update extends javax.swing.JFrame {
         pnl_rightLayout.setHorizontalGroup(
             pnl_rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_rightLayout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addComponent(lbl_icon)
                 .addGap(50, 50, 50))
         );
@@ -241,7 +246,7 @@ public class Page_Update extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1168, Short.MAX_VALUE)
+            .addComponent(jSplitPane1)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,12 +266,31 @@ public class Page_Update extends javax.swing.JFrame {
         txt_serialNumber.setText(asset.getProductSerialNumber());
         txt_price.setText(asset.getProductPrice());
         txt_location.setText(asset.getProductLocation());
+        spinner_date.setValue(setSpinnerDate(asset));
         dcbm.setSelectedItem(asset.getProductUser());
+        setStatus(asset);
+    }
+
+    // chcbox_status set value
+    private void setStatus(FixedAssets asset) {
         if (asset.getProductStatus().equals("Active")) {
             chcbox_status.setSelected(true);
         } else {
             chcbox_status.setSelected(false);
         }
+    }
+
+    // spinner set value
+    private Date setSpinnerDate(FixedAssets asset) {
+        String assetDate = asset.getProductPurchaseDate();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        Date purchaseDate = null;
+        try {
+            purchaseDate = sdf.parse(assetDate);
+        } catch (Exception e) {
+            e.toString();
+        }
+        return purchaseDate;
     }
 
     // check empty fields
@@ -301,19 +325,21 @@ public class Page_Update extends javax.swing.JFrame {
 
     // get purchase date
     private String getPurchaseDate() {
-        return spinner_date.getValue().toString();
+        Date date = (Date) spinner_date.getValue();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        return sdf.format(date);
     }
 
     // get price with regex
     private String getPriceString() {
         boolean matches = false;
-        Pattern pattern = Pattern.compile("^[0-9]+");
+        Pattern pattern = Pattern.compile("^[0-9.,]+");
         Matcher matcher = pattern.matcher(txt_price.getText());
         if (matcher.matches()) {
             matches = true;
         } else {
             while (!matcher.matches()) {
-                String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter integers!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter valid values!", "WARNING", JOptionPane.WARNING_MESSAGE);
                 if (input == null) {
                     matches = false;
                     txt_price.setText("");
@@ -356,17 +382,16 @@ public class Page_Update extends javax.swing.JFrame {
 
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
         if (isEmptyField() || getPriceString().isEmpty()) {
-            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "Empty Fields", JOptionPane.INFORMATION_MESSAGE);
         } else {
             FixedAssets asset = new FixedAssets(getUserString(), getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString());
             if (DatabaseManager.updateAsset(selected_id, asset)) {
-                JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is updated!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is updated!", "Update", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
                 DatabaseManager.showAssets(Page_Home.model);
             } else {
-                JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is not updated!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, asset.getProductDescription() + " is not updated!", "Warning", JOptionPane.WARNING_MESSAGE);
             }
-
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 

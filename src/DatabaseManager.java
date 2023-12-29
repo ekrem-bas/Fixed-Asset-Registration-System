@@ -5,13 +5,20 @@ import javax.swing.table.DefaultTableModel;
 
 public class DatabaseManager {
 
+    // url for sql connection
     private final static String URL = "jdbc:mysql://localhost:3306/my_database";
+    // username for sql connection
     private final static String USERNAME = "root";
+    // password for sql connection
     private final static String PASSWORD = "root1234";
+    // connection
     private static Connection connection;
+    // statement
     private static Statement statement;
+    // result set
     private static ResultSet resultSet;
 
+    // loggedPerson to check permission
     public static Person loggedPerson;
 
     // CONNECTION
@@ -21,7 +28,8 @@ public class DatabaseManager {
 
     // CHECK PERMISSION
     public static boolean checkPermission() {
-        if (!loggedPerson.getPosition().equals("General Manager")) {
+        // if user is admin it will get a permission
+        if (!loggedPerson.getPosition().equals("Admin")) {
             return false;
         } else {
             return true;
@@ -30,15 +38,20 @@ public class DatabaseManager {
 
     // REGISTER
     public static boolean register(Person person, String mail) {
+        // check if the mail exists or not
         boolean exist = false;
+        // sql block
         try {
+            // query for registering
             String sql = "SELECT * FROM Person WHERE mail = '" + mail + "'";
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            // if the given mail is exist it will return true
             if (resultSet.next()) {
                 exist = true;
             } else {
+                // if not it will create a person with given values
                 exist = false;
                 statement.executeUpdate(
                         "INSERT INTO Person (name, surname, phone, mail, password, gender, position) "
@@ -50,23 +63,29 @@ public class DatabaseManager {
                         + "'" + person.getGender() + "',"
                         + "'" + person.getPosition() + "')"
                 );
+                // closing connection and statement
                 connection.close();
                 statement.close();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        // return true or false to give an information to user
         return exist;
     }
 
     // LOGIN
     public static boolean login(String mail, String password) {
+        // check if the user founded from sql
         boolean found = false;
+        // sql block
         try {
+            // query for checking the mail and password to login
             String sql = "SELECT * FROM Person WHERE mail = '" + mail + "' AND password = '" + password + "'";
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            // if there is a person with given values it will assign the logged person to loggedPerson variable
             if (resultSet.next()) {
                 found = true;
                 Person person = new Person(
@@ -80,6 +99,7 @@ public class DatabaseManager {
                 );
                 loggedPerson = person;
             }
+            // closing connection and statement
             connection.close();
             statement.close();
         } catch (Exception e) {
@@ -90,12 +110,15 @@ public class DatabaseManager {
 
     // SHOW PERSONS
     public static boolean showPersons(DefaultTableModel dtm) {
+        // to check if this method worked or not
         boolean showed = false;
         try {
-            String sql = "SELECT * FROM Person";
+            // sql query to show persons except Admin
+            String sql = "SELECT * FROM Person WHERE name <> 'Admin'";
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            // reset the table
             dtm.setRowCount(0);
             while (resultSet.next()) {
                 dtm.addRow(new Object[]{
@@ -120,7 +143,8 @@ public class DatabaseManager {
     public static boolean CBOXaddPersons(DefaultComboBoxModel dcbm) {
         boolean added = false;
         try {
-            String sql = "SELECT * FROM Person";
+            // query for sql to add persons to combobox except admin 
+            String sql = "SELECT * FROM Person WHERE name <> 'Admin'";
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
@@ -140,9 +164,10 @@ public class DatabaseManager {
     public static boolean delete(int id) {
         boolean deleted = false;
         try {
+            // delete person where the given id
+            String sql = "DELETE FROM Person WHERE id = '" + id + "'";
             connection = getConnection();
             statement = connection.createStatement();
-            String sql = "DELETE FROM Person WHERE (`id` = '" + id + "')";
             if (statement.executeUpdate(sql) > 0) {
                 deleted = true;
             }
@@ -154,19 +179,16 @@ public class DatabaseManager {
         return deleted;
     }
 
-    // ADD ASSETS (done)
-    // SHOW ASSETS (done)
-    // UPDATE ASSETS (done)
-    // FILTER ASSETS (done)
-    // DELETE ASSETS (done)
     // SHOW ASSETS    
     public static boolean showAssets(DefaultTableModel dtm) {
         boolean showed = false;
         try {
+            // query for sql to get all of assets in the database table
             String sql = "SELECT * FROM Asset";
             connection = getConnection();
             statement = connection.createStatement();
             resultSet = statement.executeQuery(sql);
+            // reset the table
             dtm.setRowCount(0);
             while (resultSet.next()) {
                 dtm.addRow(new Object[]{
@@ -193,6 +215,7 @@ public class DatabaseManager {
     public static boolean addAssets(FixedAssets asset) {
         boolean added = false;
         try {
+            // add asset to database with given values
             String sql = "INSERT INTO Asset (user, description, category, serialNumber, purchaseDate, price, location, status) "
                     + "VALUES ('" + asset.getProductUser() + "',"
                     + "'" + asset.getProductDescription() + "',"
@@ -219,6 +242,7 @@ public class DatabaseManager {
     public static boolean updateAsset(int id, FixedAssets asset) {
         boolean updated = false;
         try {
+            // update the selected asset with given values
             String sql = "UPDATE Asset SET user = '" + asset.getProductUser() + "',"
                     + " description = '" + asset.getProductDescription() + "',"
                     + " category = '" + asset.getProductCategory() + "',"
@@ -245,7 +269,8 @@ public class DatabaseManager {
     public static boolean deleteAsset(int id) {
         boolean deleted = false;
         try {
-            String sql = "DELETE FROM Asset WHERE (id = '" + id + "')";
+            // delete asset with the given id
+            String sql = "DELETE FROM Asset WHERE id = '" + id + "'";
             connection = getConnection();
             statement = connection.createStatement();
             if (statement.executeUpdate(sql) > 0) {

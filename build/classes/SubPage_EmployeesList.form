@@ -19,7 +19,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pbtn_copyActionPerformed"/>
           </Events>
         </MenuItem>
-        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+        <Component class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
         </Component>
         <MenuItem class="javax.swing.JMenuItem" name="pbtn_delete">
           <Properties>

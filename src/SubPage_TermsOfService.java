@@ -271,14 +271,14 @@ public class SubPage_TermsOfService extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    static boolean clickedCloseButton = false;
-
+    // next button
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        // it will change the tabbed_pane index
         tabbed_pane.setSelectedIndex(tabbed_pane.getSelectedIndex() + 1);
     }//GEN-LAST:event_nextButtonActionPerformed
 
+    // close button
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
-        clickedCloseButton = true;
         this.dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
 

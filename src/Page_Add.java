@@ -1,22 +1,29 @@
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
 public class Page_Add extends javax.swing.JFrame {
 
+    // combo box model and arrayList 
     DefaultComboBoxModel<String> dcbm;
     ArrayList<JTextField> textFields = new ArrayList<>();
+
     public Page_Add() {
         initComponents();
+        // adding users to combobox
         addUsersToCBox();
+        // adding textfields to arraylist to check if they are empty or not
         addFieldstoArrayList();
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -46,7 +53,6 @@ public class Page_Add extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("ADD");
-        setPreferredSize(new java.awt.Dimension(1168, 676));
 
         txt_location.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
@@ -74,7 +80,8 @@ public class Page_Add extends javax.swing.JFrame {
         txt_price.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
 
         spinner_date.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
-        spinner_date.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(946677600000L), new java.util.Date(2553454800000L), java.util.Calendar.ERA));
+        spinner_date.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), null, null, java.util.Calendar.DAY_OF_MONTH));
+        spinner_date.setEditor(new JSpinner.DateEditor(spinner_date, "dd.MM.yyyy"));
 
         btn_cancel.setFont(new java.awt.Font("Helvetica Neue", 0, 16)); // NOI18N
         btn_cancel.setText("CANCEL");
@@ -146,7 +153,7 @@ public class Page_Add extends javax.swing.JFrame {
                         .addComponent(btn_cancel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                         .addComponent(btn_apply, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(50, 50, 50))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         pnl_leftLayout.setVerticalGroup(
             pnl_leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,8 +237,8 @@ public class Page_Add extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    // add fields to arrayList to check them
 
+    // add fields to arrayList to check them
     private void addFieldstoArrayList() {
         textFields.add(txt_description);
         textFields.add(txt_location);
@@ -239,7 +246,7 @@ public class Page_Add extends javax.swing.JFrame {
         textFields.add(txt_price);
     }
 
-    // add persons to user list
+    // add persons from database to user list
     private void addUsersToCBox() {
         dcbm = (DefaultComboBoxModel<String>) cbox_user.getModel();
         DatabaseManager.CBOXaddPersons(dcbm);
@@ -283,33 +290,44 @@ public class Page_Add extends javax.swing.JFrame {
 
     // get purchase date
     private String getPurchaseDate() {
-        return spinner_date.getValue().toString();
+        Date date = (Date) spinner_date.getValue();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+        return sdf.format(date);
     }
 
     // get price with regex
     private String getPriceString() {
         boolean matches = false;
-        Pattern pattern = Pattern.compile("^[0-9]+");
+        // pattern for price (only integers and . ,)
+        Pattern pattern = Pattern.compile("^[0-9.,]+");
         Matcher matcher = pattern.matcher(txt_price.getText());
+        // if matcher matches it will return true
         if (matcher.matches()) {
             matches = true;
         } else {
+            // else it will show an option pane to get correct value while user enters invalid value
             while (!matcher.matches()) {
-                String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter integers!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                String input = JOptionPane.showInputDialog(rootPane, "Invalid Value! Please enter valid values!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                // if user selects cancel button it will return null and it will set the price field to empty string
+                // i did this to check valid values if there is no valid value this method will set the field to empty
+                // and it will return an error with isEmptyField
                 if (input == null) {
                     matches = false;
                     txt_price.setText("");
                     break;
                 } else {
+                    // else it will take the input value and check it again
                     matcher = pattern.matcher(input);
                     matches = true;
                 }
             }
         }
+        // if the value is correct it will return price and set the field to it
         if (matches) {
             txt_price.setText(matcher.group());
             return txt_price.getText();
         } else {
+            // else it will set the field to empty string
             return "";
         }
     }
@@ -327,20 +345,28 @@ public class Page_Add extends javax.swing.JFrame {
             return "Inactive";
         }
     }
+
     private void btn_applyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_applyActionPerformed
+        // if there is something wrong it will show an info to user
         if (isEmptyField() || getPriceString().isEmpty() || cbox_user.getSelectedItem().toString().equals("<none>")) {
             JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
         } else {
+            // if there is no empty field, the price is not empty(incorrect) and the user selection is not <none>
+            // it will add the asset with the given values to the database
             DatabaseManager.addAssets(new FixedAssets(getUserString(), getDescriptionString(), getCategoryString(), getSerialNumber(), getPurchaseDate(), getPriceString(), getLocationString(), getStatusString()));
+            // give an information to the user
             JOptionPane.showMessageDialog(rootPane, getDescriptionString() + " is added to assets.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+            // reset the table
             DatabaseManager.showAssets(Page_Home.model);
             this.dispose();
         }
     }//GEN-LAST:event_btn_applyActionPerformed
 
     private void cbox_categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_categoryActionPerformed
+        // this is icon in the left part of page
+        // i added this to get a better design and i wantted to use Images in my project
         ImageIcon icon = null;
-
+        // switch case to change icon with the selection from category
         switch (cbox_category.getSelectedIndex()) {
             case 0:
                 icon = new ImageIcon("src/assets/building.png");
