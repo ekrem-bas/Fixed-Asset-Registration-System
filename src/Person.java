@@ -1,7 +1,8 @@
 
+// Person class
 public class Person {
 
-    private int id;
+    // variables for person
     private String name;
     private String surname;
     private String phone;
@@ -10,6 +11,7 @@ public class Person {
     private String gender;
     private String position;
 
+    // constructor
     public Person(String name, String surname, String phone, String mail, String password, String gender, String position) {
         this.name = name;
         this.surname = surname;
@@ -20,10 +22,7 @@ public class Person {
         this.position = position;
     }
 
-    public int getId() {
-        return id;
-    }
-
+    // getters
     public String getName() {
         return name;
     }

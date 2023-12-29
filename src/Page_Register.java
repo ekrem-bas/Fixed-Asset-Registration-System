@@ -11,6 +11,7 @@ public class Page_Register extends javax.swing.JFrame {
 
     public Page_Register() {
         initComponents();
+        // adding fileds to arrayList to check them if there is an empty area
         addFieldstoArrayList();
     }
 
@@ -255,17 +256,18 @@ public class Page_Register extends javax.swing.JFrame {
         }
     }
 
-    // checker for text areas that returns true or false
+    // checker for different text areas that returns true or false
     private boolean checker(String regex, String insideMatcher, String fieldName, JTextField field) {
+        // pattern will take regex
         Pattern p = Pattern.compile(regex);
+        // matcher will take the string from textfield
         Matcher m = p.matcher(insideMatcher);
-
         if (!m.matches()) {
             while (!m.matches()) {
                 String input = JOptionPane.showInputDialog(rootPane,
                         "Invalid " + fieldName + "! Please Try Again!",
-                        "ERROR",
-                        JOptionPane.WARNING_MESSAGE);
+                        "Invalid Value",
+                        JOptionPane.INFORMATION_MESSAGE);
                 if (input == null) {
                     return false;
                 } else {
@@ -284,9 +286,10 @@ public class Page_Register extends javax.swing.JFrame {
 
     // check name and get name string from text field
     private String getNameString() {
-        if (checker("^^[A-Z][A-Za-z\\s]+$", txt_name.getText(), "Name", txt_name)) {
+        if (checker("^[A-Z][A-Za-z\\s]+$", txt_name.getText(), "Name", txt_name)) {
             return txt_name.getText();
         } else {
+            txt_name.setText("");
             return "";
         }
     }
@@ -296,6 +299,7 @@ public class Page_Register extends javax.swing.JFrame {
         if (checker("^[A-Z][a-z]+$", txt_surname.getText(), "Surname", txt_surname)) {
             return txt_surname.getText();
         } else {
+            txt_surname.setText("");
             return "";
         }
     }
@@ -305,6 +309,7 @@ public class Page_Register extends javax.swing.JFrame {
         if (checker("^[1-9][0-9]{9}$", txt_phone.getText(), "Phone", txt_phone)) {
             return txt_phone.getText();
         } else {
+            txt_phone.setText("");
             return "";
         }
     }
@@ -337,6 +342,7 @@ public class Page_Register extends javax.swing.JFrame {
             }
             return password;
         } else {
+            txt_password.setText("");
             return "";
         }
     }
@@ -355,6 +361,7 @@ public class Page_Register extends javax.swing.JFrame {
         return cbox_position.getSelectedItem().toString();
     }
 
+    // check if there is an empty getter
     private boolean isEmptyCheck() {
         if (getNameString().isEmpty() || getSurnameString().isEmpty() || getPhoneString().isEmpty() || getMailString().isEmpty() || getPasswordString().isEmpty()) {
             return false;
@@ -363,39 +370,50 @@ public class Page_Register extends javax.swing.JFrame {
         }
     }
 
-
+    // terms_of_service label 
     private void lbl_termsOfServiceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_termsOfServiceMouseClicked
-        setBtnAgreement();
+        if (btn_agreement.isSelected()) {
+            new SubPage_TermsOfService().setVisible(true);
+        } else {
+            setBtnAgreement();
+        }
+
     }//GEN-LAST:event_lbl_termsOfServiceMouseClicked
 
+    // cancel button
     private void btn_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cancelActionPerformed
         new Page_Login().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_cancelActionPerformed
 
-    private void setBtnAgreement(){
+    // agreement button
+    private void setBtnAgreement() {
         SubPage_TermsOfService termsPage = new SubPage_TermsOfService();
-            termsPage.setVisible(true);
-            btn_agreement.setSelected(false);
-            termsPage.btn_close.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    btn_agreement.setSelected(true);
-                    SubPage_TermsOfService.clickedCloseButton = false;
-                }
-            });
+        termsPage.setVisible(true);
+        btn_agreement.setSelected(false);
+        termsPage.btn_close.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_agreement.setSelected(true);
+            }
+        });
     }
+
+    // if button is selected it will open the terms_of_service button 
     private void btn_agreementActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agreementActionPerformed
         if (btn_agreement.isSelected()) {
             setBtnAgreement();
         }
     }//GEN-LAST:event_btn_agreementActionPerformed
 
+    // register operation
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
+        // if there is empty fields it will show an error
         if (isEmptyField()) {
-            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "Empty Areas", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "Empty Areas", JOptionPane.INFORMATION_MESSAGE);
         } else if (!isEmptyCheck()) {
-            JOptionPane.showMessageDialog(rootPane, "Invalid Values Please Try Again!");
+            // then it will check is there any empty fields after regex check
+            JOptionPane.showMessageDialog(rootPane, "Invalid Values Please Try Again!", "Invalid Values", JOptionPane.INFORMATION_MESSAGE);
         } else {
             Person person = new Person(
                     getNameString(),
@@ -407,15 +425,16 @@ public class Page_Register extends javax.swing.JFrame {
                     getPositionString()
             );
             if (DatabaseManager.register(person, person.getMail())) {
-                JOptionPane.showMessageDialog(rootPane, getMailString() + " could not be regiseterd. This mail exist!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, getMailString() + " could not be regiseterd. This mail is exist!", "You Have a Membership", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(rootPane, getNameString() + " successfully registered.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, getNameString() + " successfully registered.", "Please Sign In", JOptionPane.INFORMATION_MESSAGE);
             }
             this.dispose();
             new Page_Login().setVisible(true);
         }
     }//GEN-LAST:event_btn_registerActionPerformed
 
+    // closing window
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         new Page_Login().setVisible(true);
         this.dispose();

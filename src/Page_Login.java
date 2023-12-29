@@ -138,11 +138,14 @@ public class Page_Login extends javax.swing.JFrame {
             return false;
         }
     }
+
+    // register button
     private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
         new Page_Register().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_registerActionPerformed
 
+    // i used password field so i think i need this method because password field return char[]
     private String getPasswordString() {
         String passwordString = "";
         for (int i = 0; i < txt_password.getPassword().length; i++) {
@@ -150,22 +153,27 @@ public class Page_Login extends javax.swing.JFrame {
         }
         return passwordString;
     }
+
+    // login button
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        // if there is an empty area it will show error message
         if (isEmptyArea()) {
-            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "Please fill the empty areas!", "Empty Area", JOptionPane.INFORMATION_MESSAGE);
         } else {
+            // else it will check if the user is exist or not if it exists it will open home page
             if (DatabaseManager.login(txt_mail.getText(), getPasswordString())) {
                 new Page_Home(DatabaseManager.loggedPerson).setVisible(true);
                 this.dispose();
             } else {
-                JOptionPane.showMessageDialog(rootPane, "User cannot found!", "WARNING", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "User cannot found!", "A Newcomer?", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btn_loginActionPerformed
 
+    // closing the login page
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if(input == JOptionPane.YES_OPTION) {
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (input == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing

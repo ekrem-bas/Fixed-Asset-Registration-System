@@ -1,6 +1,8 @@
 
+// FixedAssets class
 public class FixedAssets {
 
+    // variables for assets
     private String productUser;
     private String productDescription;
     private String productCategory;
@@ -21,6 +23,7 @@ public class FixedAssets {
         this.productStatus = productStatus;
     }
 
+    // getters
     public String getProductUser() {
         return productUser;
     }

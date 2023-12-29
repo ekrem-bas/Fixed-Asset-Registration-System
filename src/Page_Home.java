@@ -11,14 +11,16 @@ import javax.swing.table.TableRowSorter;
 
 public class Page_Home extends javax.swing.JFrame {
 
+    // table model
     static DefaultTableModel model;
+
     public Page_Home(Person person) {
         initComponents();
         model = (DefaultTableModel) tbl_assets.getModel();
         person = DatabaseManager.loggedPerson;
         lbl_name.setText(person.getName());
     }
-    
+
     public Page_Home() {
         initComponents();
     }
@@ -304,49 +306,65 @@ public class Page_Home extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void mbtn_quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_quitActionPerformed
-        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        // when user clicks on quit button it will show a confirm dialog to ensure the user wants to exit
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        // if user clicks on yes it will close the application
         if (input == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_mbtn_quitActionPerformed
 
     private void mbtn_showPersonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_showPersonsActionPerformed
-        new SubPage_PersonList().setVisible(true);
+        // if user clicks on Show Persons button it will open the Employees Page
+        new SubPage_EmployeesList().setVisible(true);
     }//GEN-LAST:event_mbtn_showPersonsActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // when home page opened it will take the assets from database and show them to user
         if (DatabaseManager.showAssets(model)) {
         } else {
-            JOptionPane.showMessageDialog(rootPane, "There is no fixed asset in database");
+            // if there is an error with database or there is nothing in database it will show an message
+            JOptionPane.showMessageDialog(rootPane, "There is no fixed asset in database", "Something Went Wrong", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_formWindowOpened
 
-
+    // filtration of table
     private void cbox_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_filterActionPerformed
+        // i took these lines of code from internet seraching about filtration of jTable
+        // create a rowSorter
         TableRowSorter<DefaultTableModel> rowSorter = new TableRowSorter<>();
+        // and set its model to Asset Table's model
         rowSorter.setModel(model);
+        // if there is nothing selected from combo box it will not filter the table
         if ("<none>".equals(cbox_filter.getSelectedItem().toString())) {
             tbl_assets.setRowSorter(null);
         } else {
+            // else it will take the combo box string with regex filter and filter them with the category column
             rowSorter.setRowFilter(RowFilter.regexFilter(cbox_filter.getSelectedItem().toString(), 3));
             tbl_assets.setRowSorter(rowSorter);
         }
     }//GEN-LAST:event_cbox_filterActionPerformed
 
+    // add button
     private void btn_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addActionPerformed
+        // if the user has a permission it will open the page add
         if (DatabaseManager.checkPermission()) {
             new Page_Add().setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            // else it will show an message
+            JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "Sorry", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btn_addActionPerformed
 
+    // update button
     private void btn_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updateActionPerformed
+        // check the permission
         if (DatabaseManager.checkPermission()) {
+            // if there is nothing selected or more than one selected from table it will show an error
             if (tbl_assets.getSelectedRows().length != 1) {
-                JOptionPane.showMessageDialog(rootPane, "Please select exactly one row from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Please select exactly one row from the table.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 FixedAssets asset = new FixedAssets(
                         model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 1).toString(),
@@ -361,34 +379,35 @@ public class Page_Home extends javax.swing.JFrame {
                 new Page_Update((int) (model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0)), asset).setVisible(true);
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "Sorry", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btn_updateActionPerformed
 
+    // copy button function to use it in here and employees page
     public static void btn_copyActionPerformed(java.awt.event.ActionEvent evt, DefaultTableModel model, JTable tbl) {
         String copy = "";
-        int[] selectedRows = tbl.getSelectedRows();
-        for (int i = 0; i < selectedRows.length; i++) {
-            int modelRow = tbl.convertRowIndexToModel(selectedRows[i]);
-            copy += model.getDataVector().get(modelRow) + "\n";
+        for (int i = 0; i < tbl.getSelectedRows().length; i++) {
+            copy += model.getDataVector().get(tbl.convertRowIndexToModel(tbl.getSelectedRows()[i])) + "\n";
         }
         if (!copy.equals("")) {
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             StringSelection stringSelection = new StringSelection(copy);
             clipboard.setContents(stringSelection, null);
         } else {
-            JOptionPane.showMessageDialog(null, "There is  nothing selected from table!", "ERROR", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "There is  nothing selected from table!", "Sorry", JOptionPane.INFORMATION_MESSAGE);
         }
-} 
+    }
 
+    // copy pop up menu button
     private void mbtn_copyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_copyActionPerformed
         btn_copyActionPerformed(evt, model, tbl_assets);
     }//GEN-LAST:event_mbtn_copyActionPerformed
 
+    // delete pop up menu button
     private void mbtn_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_deleteActionPerformed
         if (DatabaseManager.checkPermission()) {
             if (tbl_assets.getSelectedRows().length != 1) {
-                JOptionPane.showMessageDialog(rootPane, "Please select exactly one row from the table.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(rootPane, "Please select exactly one row from the table.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 if (DatabaseManager.deleteAsset((int) (model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 0)))) {
                     JOptionPane.showMessageDialog(
@@ -408,94 +427,106 @@ public class Page_Home extends javax.swing.JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "WARNING", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(rootPane, "You do not have permission to do this!", "Sorry", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_mbtn_deleteActionPerformed
 
+    // set the mini icon at top right corner to selected category
     private void setIcon(String category) {
-    ImageIcon imageIcon = null;
-    switch (category) {
-        case "Buildings":
-            imageIcon = new ImageIcon("src/assets/building64px.png");
-            break;
-        case "Electronics":
-            imageIcon = new ImageIcon("src/assets/electronics64px.png");
-            break;
-        case "Land":
-            imageIcon = new ImageIcon("src/assets/land64px.png");
-            break;
-        case "Office Furniture":
-            imageIcon = new ImageIcon("src/assets/office64px.png");
-            break;
-        case "Vehicles":
-            imageIcon = new ImageIcon("src/assets/vehicle64px.png");
-            break;
+        ImageIcon imageIcon = null;
+        switch (category) {
+            case "Buildings":
+                imageIcon = new ImageIcon("src/assets/building64px.png");
+                break;
+            case "Electronics":
+                imageIcon = new ImageIcon("src/assets/electronics64px.png");
+                break;
+            case "Land":
+                imageIcon = new ImageIcon("src/assets/land64px.png");
+                break;
+            case "Office Furniture":
+                imageIcon = new ImageIcon("src/assets/office64px.png");
+                break;
+            case "Vehicles":
+                imageIcon = new ImageIcon("src/assets/vehicle64px.png");
+                break;
+        }
+        icon.setIcon(imageIcon);
     }
-    icon.setIcon(imageIcon);
-}
 
+    // change the icon
     private void tbl_assetsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_assetsMousePressed
         setIcon(model.getValueAt(tbl_assets.convertRowIndexToModel(tbl_assets.getSelectedRow()), 3).toString());
     }//GEN-LAST:event_tbl_assetsMousePressed
 
+    // log out button
     private void mbtn_logOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_logOutActionPerformed
-        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to log out?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to log out?", "Log Out", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (input == JOptionPane.YES_OPTION) {
             new Page_Login().setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_mbtn_logOutActionPerformed
 
+    // exiting from application with the X icon on menu
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "EXIT", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        int input = JOptionPane.showConfirmDialog(rootPane, "Are you sure to exit?", "Exit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (input == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }//GEN-LAST:event_formWindowClosing
 
+    // export button
     private void mbtn_exportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mbtn_exportActionPerformed
         new Page_Export().setVisible(true);
     }//GEN-LAST:event_mbtn_exportActionPerformed
 
+
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        if (evt.getComponent() != tbl_assets) {
-            tbl_assets.clearSelection();
-        }
+        mouseTrack(evt, tbl_assets);
     }//GEN-LAST:event_formMouseClicked
+
+    // if user clicks somewhere that does not table it will clear the selection in table
+    // a method to use here and export page
+    public static void mouseTrack(java.awt.event.MouseEvent evt, JTable tbl) {
+        if (evt.getComponent() != tbl) {
+            tbl.clearSelection();
+        }
+    }
 
     public static void main(String args[]) {
 
-    //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-    /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-     */
-    try {
-        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                break;
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
             }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-    } catch (ClassNotFoundException ex) {
-        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (InstantiationException ex) {
-        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (IllegalAccessException ex) {
-        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-        java.util.logging.Logger.getLogger(Page_Home.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-    }
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
-    //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
-    java.awt.EventQueue.invokeLater(new Runnable() {
-        public void run() {
-            new Page_Home().setVisible(true);
-        }
-    });
-}
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Page_Home().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu PopupMenu;
