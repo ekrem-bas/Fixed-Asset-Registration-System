@@ -20,7 +20,7 @@
 		
 1. Clone the repository:
   ```sh
-    git clone https://github.com/ekrem-bas/CPII-Project.git
+    git clone https://github.com/ekrem-bas/Fixed-Asset-Registration-System.git
   ```
 
 2. Ensure you have the `Java Development Kit (JDK)` and [`MySQL`](https://dev.mysql.com/downloads/) installed .
@@ -97,18 +97,18 @@ private static final String PASSWORD = "your_password";
 ## Images
 
 - ### Login Page
-<img width="730" alt="login_page" src="https://github.com/user-attachments/assets/53f0030f-e93b-47af-9189-2370f9471259" />
+![Login Page](./screenshots/login-page.png "Login Page")
 
 - ### Register Page
-<img width="641" alt="register_page" src="https://github.com/user-attachments/assets/23b41beb-b20b-4882-b548-a3283ed6259e" />
+![Register Page](./screenshots/register-page.png "Register Page")
 
 - ### Home Page
-<img width="1362" alt="home_page_1" src="https://github.com/user-attachments/assets/db439109-5a1d-4adb-9ff4-ef064b496bcc" />
-<img width="1362" alt="home_page_2" src="https://github.com/user-attachments/assets/73f9e35d-a392-4a64-b74c-110ab21626b5" />
+![Home Page](./screenshots/home-page-1.png "Home Page 1")
+![Home Page](./screenshots/home-page-2.png "Home Page 2")
 
 - ### Add Page
-<img width="1325" alt="add_page" src="https://github.com/user-attachments/assets/6bfe4255-25c0-4299-a7e8-9a5dcac7e926" />
+![Add Page](./screenshots/update-page.png "Add Page")
 
 - ### Export Page
-<img width="1302" alt="export_page" src="https://github.com/user-attachments/assets/ecab8b2b-ce16-4a0d-8679-155a3ff7e384" />
-<img width="1025" alt="exported_file" src="https://github.com/user-attachments/assets/02d12a25-2f68-4eb6-8e8d-3204704c9512" />
+![Export Page](./screenshots/export-page-1.png "Export Page")
+![Export Page](./screenshots/export-2.png "Export Page")
